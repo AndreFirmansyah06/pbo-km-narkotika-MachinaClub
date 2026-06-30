@@ -37,3 +37,23 @@ public class KnowledgeRepository {
 
         return daftarPutusan.size();
     }
+
+    public ArrayList<Putusan> filterByJenis(String jenis) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            if (p.getJenisNarkotika().equalsIgnoreCase(jenis)) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
+    }
+
+    public ArrayList<Putusan> filterByPengadilan(String pengadilan) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            if (p.getPengadilan().toLowerCase().contains(pengadilan.toLowerCase())) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
+    }
