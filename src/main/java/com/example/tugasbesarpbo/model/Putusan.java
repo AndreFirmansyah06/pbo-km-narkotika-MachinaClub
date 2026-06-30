@@ -93,3 +93,10 @@ public class Putusan implements Displayable {
             tampilkan();
         }
     }
+
+    // ==================== STATIC METHOD ====================
+
+    public static int getJumlahDibuat() {
+        return jumlahDibuat;
+    }
+
