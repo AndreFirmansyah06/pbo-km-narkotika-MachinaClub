@@ -65,3 +65,45 @@ public class StatistikPutusan {
             distribusiPeran[i++] = entry.getKey() + ": " + entry.getValue() + " kasus";
         }
     }
+
+
+    public void tampilkanLaporan() {
+        System.out.println("========================================");
+        System.out.println("       LAPORAN STATISTIK PUTUSAN        ");
+        System.out.println("========================================");
+        System.out.println("Total Putusan             : " + totalPutusan);
+        System.out.printf( "Rata-rata Vonis           : %.1f bulan%n", rataRataVonis);
+        System.out.printf( "Rata-rata Denda           : Rp%.0f%n", rataRataDenda);
+        System.out.println("Jenis Narkotika Terbanyak : " + jenisNarkotikaTerbanyak);
+        System.out.println("Distribusi Peran          :");
+        for (String s : distribusiPeran) {
+            System.out.println("  - " + s);
+        }
+        System.out.println("========================================");
+    }
+
+    public int getTotalPutusan() {
+
+        return totalPutusan;
+    }
+
+    public double getRataRataVonis() {
+
+        return rataRataVonis;
+    }
+
+    public double getRataRataDenda() {
+
+        return rataRataDenda;
+    }
+
+    public String getJenisNarkotikaTerbanyak() {
+
+        return jenisNarkotikaTerbanyak;
+    }
+
+    public String[] getDistribusiPeran() {
+
+        return distribusiPeran;
+    }
+}
