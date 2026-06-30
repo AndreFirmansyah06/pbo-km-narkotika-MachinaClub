@@ -11,4 +11,16 @@ public class KnowledgeController {
 
         this.repository = repository;
     }
+
+    // GET ALL DATA
+    public ArrayList<Putusan> getSemuaPutusan() {
+
+        return repository.getDaftarSemua();
+    }
+
+    // GET TOTAL DATA
+    public int getTotalDataPutusan(){
+
+        return  repository.getTotalData();
+    }
 }
