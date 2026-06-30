@@ -7,4 +7,13 @@ public class InputHandler {
         }
         return value.trim();
     }
+
+    public static int validasiInt(String value, String namaField) {
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(namaField + " harus berupa angka bulat yang valid!");
+        }
+    }
+
 }
