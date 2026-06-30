@@ -100,3 +100,34 @@ public class Putusan implements Displayable {
         return jumlahDibuat;
     }
 
+
+    // ==================== DISPLAYABLE (overloading) ====================
+
+    @Override
+    public void tampilkan() {
+        System.out.println(nomorPerkara.get() + " - " + namaTerdakwa.get() + " (" + jenisNarkotika.get() + ")");
+    }
+
+    @Override
+    public void tampilkan(boolean detail) {
+        if (detail) {
+            System.out.println("==============================");
+            System.out.println("Nomor Perkara  : " + nomorPerkara.get());
+            System.out.println("Pengadilan     : " + pengadilan.get());
+            System.out.println("Tanggal Putusan: " + tanggalPutusan.get());
+            System.out.println("Nama Terdakwa  : " + namaTerdakwa.get());
+            System.out.println("Umur           : " + umurTerdakwa.get() + " tahun");
+            System.out.println("Jenis Narkotika: " + jenisNarkotika.get());
+            System.out.println("Berat BB       : " + beratBarangBukti.get() + " gram");
+            System.out.println("Pasal Dilanggar: " + pasalDilanggar.get());
+            System.out.println("Peran Terdakwa : " + peranTerdakwa.get());
+            System.out.println("Vonis Hukuman  : " + vonisHukuman.get() + " bulan");
+            System.out.println("Vonis Denda    : Rp" + String.format("%.0f", vonisDenda.get()));
+            System.out.println("Nama Hakim     : " + namaHakim.get());
+            System.out.println("Kategori       : " + getKategoriHukuman());
+            System.out.println("==============================");
+        } else {
+            tampilkan();
+        }
+    }
+
