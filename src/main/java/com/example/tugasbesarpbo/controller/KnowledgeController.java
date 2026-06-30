@@ -146,4 +146,11 @@ public class KnowledgeController {
                 return new ArrayList<>();
         }
     }
+
+    // GET DATA STATISTIK
+    public StatistikPutusan getStatistik() {
+
+        return new StatistikPutusan(repository.getDaftarSemua());
+    }
+
 }
