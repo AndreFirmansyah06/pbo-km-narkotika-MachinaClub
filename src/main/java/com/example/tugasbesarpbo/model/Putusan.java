@@ -145,3 +145,125 @@ public class Putusan implements Displayable {
                 nomorPerkara.get(), namaTerdakwa.get(), vonisHukuman.get(), vonisDenda.get());
     }
 
+    // ==================== GETTERS, SETTERS & PROPERTY METHODS ====================
+
+    public String getNomorPerkara() {
+        return nomorPerkara.get();
+    }
+    public void setNomorPerkara(String nomorPerkara) {
+        this.nomorPerkara.set(nomorPerkara);
+    }
+    public SimpleStringProperty nomorPerkaraProperty() {
+        return nomorPerkara;
+    }
+
+    public String getPengadilan() {
+        return pengadilan.get();
+    }
+    public void setPengadilan(String pengadilan) {
+        this.pengadilan.set(pengadilan);
+    }
+    public SimpleStringProperty pengadilanProperty() {
+        return pengadilan;
+    }
+
+    public String getTanggalPutusan() {
+        return tanggalPutusan.get();
+    }
+    public void setTanggalPutusan(String tanggalPutusan) {
+        this.tanggalPutusan.set(tanggalPutusan);
+    }
+    public SimpleStringProperty tanggalPutusanProperty() {
+        return tanggalPutusan;
+    }
+
+    public String getNamaTerdakwa() {
+        return namaTerdakwa.get();
+    }
+    public void setNamaTerdakwa(String namaTerdakwa) {
+        this.namaTerdakwa.set(namaTerdakwa);
+    }
+    public SimpleStringProperty namaTerdakwaProperty() {
+        return namaTerdakwa;
+    }
+
+    public int getUmurTerdakwa() {
+        return umurTerdakwa.get();
+    }
+    public void setUmurTerdakwa(int umurTerdakwa) {
+        this.umurTerdakwa.set(umurTerdakwa);
+    }
+    public SimpleIntegerProperty umurTerdakwaProperty() {
+        return umurTerdakwa;
+    }
+
+    public String getJenisNarkotika() {
+        return jenisNarkotika.get();
+    }
+    public void setJenisNarkotika(String jenisNarkotika) {
+        this.jenisNarkotika.set(jenisNarkotika);
+    }
+    public SimpleStringProperty jenisNarkotikaProperty() {
+        return jenisNarkotika;
+    }
+
+    public double getBeratBarangBukti() {
+        return beratBarangBukti.get();
+    }
+    public void setBeratBarangBukti(double berat) {
+        this.beratBarangBukti.set(berat);
+    }
+    public SimpleDoubleProperty beratBarangBuktiProperty() {
+        return beratBarangBukti;
+    }
+
+    public String getPasalDilanggar() {
+        return pasalDilanggar.get();
+    }
+    public void setPasalDilanggar(String pasalDilanggar) {
+        this.pasalDilanggar.set(pasalDilanggar);
+    }
+    public SimpleStringProperty pasalDilanggarProperty() {
+        return pasalDilanggar;
+    }
+
+    public String getPeranTerdakwa() {
+        return peranTerdakwa.get();
+    }
+    public void setPeranTerdakwa(String peranTerdakwa) {
+        this.peranTerdakwa.set(peranTerdakwa);
+    }
+    public SimpleStringProperty peranTerdakwaProperty() {
+        return peranTerdakwa;
+    }
+
+    public int getVonisHukuman() {
+        return vonisHukuman.get();
+    }
+    public void setVonisHukuman(int vonisHukuman) {
+        this.vonisHukuman.set(vonisHukuman);
+    }
+    public SimpleIntegerProperty vonisHukumanProperty() {
+        return vonisHukuman;
+    }
+
+    public double getVonisDenda() {
+        return vonisDenda.get();
+    }
+    public void setVonisDenda(double vonisDenda) {
+        this.vonisDenda.set(vonisDenda);
+    }
+    public SimpleDoubleProperty vonisDendaProperty() {
+        return vonisDenda;
+    }
+
+    public String getNamaHakim() {
+        return namaHakim.get();
+    }
+    public void setNamaHakim(String namaHakim) {
+        this.namaHakim.set(namaHakim);
+    }
+    public SimpleStringProperty namaHakimProperty() {
+        return namaHakim; }
+}
+
