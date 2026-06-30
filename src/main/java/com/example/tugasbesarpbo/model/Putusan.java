@@ -131,3 +131,17 @@ public class Putusan implements Displayable {
         }
     }
 
+
+    public String getKategoriHukuman() {
+        int vonis = vonisHukuman.get();   // PERBAIKAN: ambil nilai int dari property dulu
+        if (vonis <= 12) return "Ringan";
+        else if (vonis <= 60) return "Sedang";
+        else return "Berat";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Nomor: %s | Terdakwa: %s | Vonis: %d bulan | Denda: Rp%.0f",
+                nomorPerkara.get(), namaTerdakwa.get(), vonisHukuman.get(), vonisDenda.get());
+    }
+
