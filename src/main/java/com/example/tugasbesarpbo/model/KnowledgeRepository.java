@@ -57,3 +57,20 @@ public class KnowledgeRepository {
         }
         return hasil;
     }
+
+    public boolean update(String nomor, Putusan putusan) {
+        for (int i = 0; i < daftarPutusan.size(); i++) {
+            if (daftarPutusan.get(i).getNomorPerkara().equalsIgnoreCase(nomor)) {
+                daftarPutusan.set(i, putusan);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hapus(String nomor) {
+        Putusan target = cariByNomor(nomor);
+        if (target != null) return daftarPutusan.remove(target);
+        return false;
+    }
+}
