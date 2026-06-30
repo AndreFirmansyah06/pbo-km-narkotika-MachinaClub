@@ -110,4 +110,25 @@ public class KnowledgeController {
 
         return repository.hapus(nomor);
     }
+
+    // SEARCH DATA
+    public ArrayList<Putusan> cariPutusan(String keyword, String mode) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        if (keyword == null || keyword.isBlank() || mode == null) {
+            return hasil;
+        }
+        switch (mode.toLowerCase()) {
+            case "nomor":
+                Putusan p = repository.cariByNomor(keyword);
+                if (p != null) hasil.add(p);
+                break;
+            case "nama":
+                hasil = repository.cariByNama(keyword);
+                break;
+            default:
+                // mode tidak dikenali -> hasil kosong
+                break;
+        }
+        return hasil;
+    }
 }
