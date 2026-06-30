@@ -104,4 +104,10 @@ public class KnowledgeController {
         repository.update(nomor, dataBaru);
         return true;
     }
+
+    // DELETE DATA
+    public boolean hapusPutusan(String nomor) {
+
+        return repository.hapus(nomor);
+    }
 }
