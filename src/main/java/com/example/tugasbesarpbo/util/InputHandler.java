@@ -16,4 +16,12 @@ public class InputHandler {
         }
     }
 
+    public static double validasiDouble(String value, String namaField) {
+        try {
+            return Double.parseDouble(value.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(namaField + " harus berupa angka desimal yang valid!");
+        }
+    }
+
 }
