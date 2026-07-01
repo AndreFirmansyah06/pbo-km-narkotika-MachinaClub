@@ -2,6 +2,8 @@ package com.example.tugasbesarpbo.controller;
 
 import  com.example.tugasbesarpbo.util.InputHandler;
 import com.example.tugasbesarpbo.model.KnowledgeRepository;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class KnowledgeController {
@@ -151,6 +153,21 @@ public class KnowledgeController {
     public StatistikPutusan getStatistik() {
 
         return new StatistikPutusan(repository.getDaftarSemua());
+    }
+
+    // METHOD UNTUK GET DATA DARI FILE .csv
+    public void importData(File file){
+        try{
+            ArrayList<Putusan> data = txtFileHandler.bacaFile(file);
+
+            for (Putusan p : data) {
+                repository.simpan(p);
+            }
+        } catch (Exception e) {
+
+            System.out.println(e);
+        }
+
     }
 
 }
