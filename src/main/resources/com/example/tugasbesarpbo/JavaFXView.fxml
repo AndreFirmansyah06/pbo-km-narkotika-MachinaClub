@@ -127,4 +127,101 @@
                     onAction="#onUploadFile" HBox.hgrow="ALWAYS"/>
         </VBox>
     </left>
+
+    <!-- ================= CENTER: TABEL DATA ================= -->
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <HBox spacing="10">
+                    <children>
+                        <VBox spacing="5">
+                            <HBox spacing="10">
+                                <Label text="Cari berdasarkan :"/>
+                                <ComboBox fx:id="cbSearchMode" value="Nama" prefWidth="170">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Nama"/>
+                                            <String fx:value="Nomor Perkara"/>
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <TextField fx:id="txtCari" promptText="Masukkan nomor perkara / nama terdakwa..."
+                                           prefWidth="300"/>
+                                <Button fx:id="btnCari" text="🔍 Cari" onAction="#onSearch"
+                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                            </HBox>
+
+                        </VBox>
+
+                        <VBox spacing="5" alignment="BOTTOM_CENTER">
+                            <HBox spacing="5">
+                                <Label text="Filter Berdasarakan Pengadilan:" prefWidth="190"/>
+                                <ComboBox fx:id="cmbFilterPengadilan" value="Semua">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList" >
+                                            <String fx:value="Semua"/>
+                                            <String fx:value="Surabaya"/>
+                                            <String fx:value="Malang"/>
+                                            <String fx:value="Jakarta"/>
+                                            <String fx:value="Bandung"/>
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </HBox>
+
+                            <HBox spacing="5">
+                                <Label text="Filter Berdasarakan Jenis Narkotika:" prefWidth="190"/>
+                                <ComboBox fx:id="cmbFilterJenis" value="Semua" >
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Semua"/>
+                                            <String fx:value="Sabu-sabu"/>
+                                            <String fx:value="Ganja"/>
+                                            <String fx:value="Ekstasi"/>
+                                            <String fx:value="Heroin"/>
+                                            <String fx:value="Kokain"/>
+                                            <String fx:value="LSD"/>
+                                            <String fx:value="Putaw"/>
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                                <Button fx:id="btnFilter" text="🔍 Filter" onAction="#onFilter"
+                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+
+                            </HBox>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox spacing="5">
+                    <Label text="Rentang Vonis (bulan):"/>
+                    <TextField fx:id="txtVonisMin" promptText="Min" prefWidth="80"/>
+                    <Label text="s/d"/>
+                    <TextField fx:id="txtVonisMax" promptText="Maks" prefWidth="80"/>
+                    <Button fx:id="btnFilterVonis" text="🔍 Filter Vonis" onAction="#onFilterVonis"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button fx:id="btnResetFilter" text="❌ Reset Filter" onAction="#onResetFilter"
+                            style="-fx-background-color: #95a5a6; -fx-text-fill: white;" alignment="BOTTOM_RIGHT"/>
+                </HBox>
+                <TableView fx:id="tablePutusan" prefHeight="500">
+                    <columns>
+                        <TableColumn fx:id="colNomor" text="Nomor Perkara" prefWidth="180"/>
+                        <TableColumn fx:id="colNama" text="Nama Terdakwa" prefWidth="150"/>
+                        <TableColumn fx:id="colJenis" text="Jenis Narkotika" prefWidth="120"/>
+                        <TableColumn fx:id="colBerat" text="Berat (gr)" prefWidth="90"/>
+                        <TableColumn fx:id="colVonis" text="Vonis (bln)" prefWidth="90"/>
+                        <TableColumn fx:id="colPeran" text="Peran" prefWidth="100"/>
+                        <TableColumn fx:id="colDenda" text="Denda" prefWidth="120"/>
+                        <TableColumn fx:id="colHakim" text="Nama Hakim" prefWidth="120"/>
+                    </columns>
+                </TableView>
+
+            </children>
+            <Label fx:id="lblTotalData" text="Total: 0 data"/>
+        </VBox>
+    </center>
 </BorderPane>

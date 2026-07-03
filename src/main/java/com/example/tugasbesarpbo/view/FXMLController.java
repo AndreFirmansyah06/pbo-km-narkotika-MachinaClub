@@ -196,4 +196,40 @@ public class FXMLController {
         txtVonisDenda.clear();
         txtNamaHakim.clear();
     }
+
+    @FXML
+    private void onSearch() {
+        String keyword = txtCari.getText();
+        String mode = cbSearchMode.getValue();
+        System.out.println(mode);
+        ArrayList<Putusan> hasil = controller.cariPutusan(keyword, mode);
+        refreshTabel(hasil);
+        setStatus("Ditemukan " + hasil.size() + " data untuk pencarian \"" + keyword + "\".");
+    }
+
+    @FXML
+    private void onFilter() {
+
+        String jenis = cmbFilterJenis.getValue();
+        String pengadilan = cmbFilterPengadilan.getValue();
+
+        String kategori;
+        String keyword;
+
+        if (jenis != null) {
+            kategori = "jenis";
+            keyword = jenis;
+        } else if (pengadilan != null) {
+            kategori = "pengadilan";
+            keyword = pengadilan;
+        } else {
+            setStatus("Pilih filter terlebih dahulu.");
+            return;
+        }
+
+        ArrayList<Putusan> hasil = controller.filterPutusan(kategori, keyword);
+
+        refreshTabel(hasil);
+        setStatus("Ditemukan " + hasil.size() + " data.");
+    }
 }
