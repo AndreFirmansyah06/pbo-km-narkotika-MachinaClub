@@ -29,6 +29,36 @@ public class FXMLController {
     @FXML private TextField txtVonisDenda;
     @FXML private TextField txtNamaHakim;
 
+    // TABEL
+    @FXML private TableView<Putusan> tablePutusan;
+    @FXML private TableColumn<Putusan, String> colNomor;
+    @FXML private TableColumn<Putusan, String> colNama;
+    @FXML private TableColumn<Putusan, String> colJenis;
+    @FXML private TableColumn<Putusan, Double> colBerat;
+    @FXML private TableColumn<Putusan, String> colPeran;
+    @FXML private TableColumn<Putusan, Integer> colVonis;
+    @FXML private TableColumn<Putusan, Double> colDenda;
+    @FXML private TableColumn<Putusan, String> colHakim;
+
+    // PENCARIAN & FILTER
+    @FXML private TextField txtCari;
+    @FXML private Button btnUploadFile;
+    @FXML private TextField txtVonisMin;
+    @FXML private TextField txtVonisMax;
+    @FXML private ComboBox<String> cmbFilterJenis;
+    @FXML private ComboBox<String> cmbFilterPengadilan;
+    @FXML private ComboBox<String> cbSearchMode;
+
+    // STATISTIK
+    @FXML private Label lblTotalPutusan;
+    @FXML private Label lblRataRataVonis;
+    @FXML private Label lblRataRataDenda;
+    @FXML private Label lblJenisTerbanyak;
+    @FXML private TextArea txtDistribusiPeran;
+
+    // STATUS
+    @FXML private Label lblStatus;
+    @FXML private Label lblTotalData;
 
     @FXML
     private void onTambahPutusan() {
@@ -232,4 +262,32 @@ public class FXMLController {
         refreshTabel(hasil);
         setStatus("Ditemukan " + hasil.size() + " data.");
     }
+
+    @FXML
+    private void onFilterVonis() {
+        try {
+            ArrayList<Putusan> hasil = controller.filterByRentangVonis(
+                    txtVonisMin.getText(),
+                    txtVonisMax.getText()
+            );
+            refreshTabel(hasil);
+            setStatus("Filter vonis diterapkan: " + hasil.size() + " data ditemukan.");
+        } catch (IllegalArgumentException e) {
+            setStatus(e.getMessage());
+        }
+    }
+
+
+    @FXML
+    private void onResetFilter() {
+        txtCari.clear();
+        txtVonisMin.clear();
+        txtVonisMax.clear();
+        cmbFilterJenis.setValue("Semua");
+        cmbFilterPengadilan.setValue("Semua");
+        cbSearchMode.setValue("Nama");
+        refreshTabel(controller.getSemuaPutusan());
+        setStatus("Menampilkan seluruh data putusan.");
+    }
+
 }
