@@ -251,4 +251,16 @@
         </VBox>
     </right>
 
+    <!-- ================= BOTTOM: STATUS BAR ================= -->
+    <bottom>
+        <HBox style="-fx-background-color: #34495e;">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10"/>
+            </padding>
+            <children>
+                <Label fx:id="lblStatus" text="✅ Sistem siap. Silakan masukkan data putusan."
+                       style="-fx-text-fill: white;"/>
+            </children>
+        </HBox>
+    </bottom>
 </BorderPane>
