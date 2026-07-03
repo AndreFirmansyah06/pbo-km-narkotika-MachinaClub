@@ -60,6 +60,57 @@ public class FXMLController {
     @FXML private Label lblStatus;
     @FXML private Label lblTotalData;
 
+
+    public void setController(KnowledgeController controller) {
+        this.controller = controller;
+        refreshTabel(controller.getSemuaPutusan());
+        amountData();
+    }
+
+    @FXML
+    public void initialize() {
+        // SETUP KOLOM
+        colNomor.setCellValueFactory(cell ->
+                cell.getValue().nomorPerkaraProperty());
+        colNama.setCellValueFactory(cell ->
+                cell.getValue().namaTerdakwaProperty());
+        colJenis.setCellValueFactory(cell ->
+                cell.getValue().jenisNarkotikaProperty());
+        colBerat.setCellValueFactory(cell ->
+                cell.getValue().beratBarangBuktiProperty().asObject());
+        colPeran.setCellValueFactory(cell ->
+                cell.getValue().peranTerdakwaProperty());
+        colVonis.setCellValueFactory(cell ->
+                cell.getValue().vonisHukumanProperty().asObject());
+        colDenda.setCellValueFactory(cell ->
+                cell.getValue().vonisDendaProperty().asObject());
+        colHakim.setCellValueFactory(cell ->
+                cell.getValue().namaHakimProperty());
+
+
+        // EVENT UNTUK UPDATE (KLIK DATA DI TABEL DAN DATA AKAN MUNCUL DI FORM
+        tablePutusan.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    if (newVal != null) {
+                        txtNomorPerkara.setText(newVal.getNomorPerkara());
+                        txtPengadilan.setText(newVal.getPengadilan());
+                        txtTanggalPutusan.setText(newVal.getTanggalPutusan());
+                        txtNamaTerdakwa.setText(newVal.getNamaTerdakwa());
+                        txtUmurTerdakwa.setText(String.valueOf(newVal.getUmurTerdakwa()));
+                        cmbJenisNarkotika.setValue(newVal.getJenisNarkotika());
+                        txtBeratBarangBukti.setText(String.valueOf(newVal.getBeratBarangBukti()));
+                        txtPasalDilanggar.setText(newVal.getPasalDilanggar());
+                        cmbPeranTerdakwa.setValue(newVal.getPeranTerdakwa());
+                        txtVonisHukuman.setText(String.valueOf(newVal.getVonisHukuman()));
+                        txtVonisDenda.setText(String.valueOf(newVal.getVonisDenda()));
+                        txtNamaHakim.setText(newVal.getNamaHakim());
+                    }
+                }
+        );
+
+        tablePutusan.setItems(dataList);
+    }
+
     @FXML
     private void onTambahPutusan() {
 
