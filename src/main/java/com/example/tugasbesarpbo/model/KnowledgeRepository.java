@@ -39,6 +39,11 @@ public class KnowledgeRepository {
     }
 
     public ArrayList<Putusan> filterByJenis(String jenis) {
+
+        if (jenis.equalsIgnoreCase("Semua")) {
+            return new ArrayList<>(daftarPutusan);
+        }
+
         ArrayList<Putusan> hasil = new ArrayList<>();
         for (Putusan p : daftarPutusan) {
             if (p.getJenisNarkotika().equalsIgnoreCase(jenis)) {
@@ -49,6 +54,10 @@ public class KnowledgeRepository {
     }
 
     public ArrayList<Putusan> filterByPengadilan(String pengadilan) {
+        if (pengadilan.equalsIgnoreCase("Semua")) {
+            return new ArrayList<>(daftarPutusan);
+        }
+
         ArrayList<Putusan> hasil = new ArrayList<>();
         for (Putusan p : daftarPutusan) {
             if (p.getPengadilan().toLowerCase().contains(pengadilan.toLowerCase())) {
