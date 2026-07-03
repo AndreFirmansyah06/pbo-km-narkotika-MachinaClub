@@ -82,4 +82,16 @@ public class KnowledgeRepository {
         if (target != null) return daftarPutusan.remove(target);
         return false;
     }
+
+    // Filter berdasarkan rentang vonis hukuman (dalam bulan), inklusif di kedua batas
+    public ArrayList<Putusan> filterByVonisRange(int vonisMin, int vonisMax) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            int vonis = p.getVonisHukuman();
+            if (vonis >= vonisMin && vonis <= vonisMax) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
+    }
 }
