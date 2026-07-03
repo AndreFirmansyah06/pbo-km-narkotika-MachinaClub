@@ -1,6 +1,9 @@
 package com.example.tugasbesarpbo.controller;
 
+import com.example.tugasbesarpbo.model.Putusan;
+import com.example.tugasbesarpbo.model.StatistikPutusan;
 import  com.example.tugasbesarpbo.util.InputHandler;
+import  com.example.tugasbesarpbo.util.CSVFileHandler;
 import com.example.tugasbesarpbo.model.KnowledgeRepository;
 
 import java.io.File;
@@ -165,7 +168,7 @@ public class KnowledgeController {
     // METHOD UNTUK GET DATA DARI FILE .csv
     public void importData(File file){
         try{
-            ArrayList<Putusan> data = txtFileHandler.bacaFile(file);
+            ArrayList<Putusan> data = CSVFileHandler.bacaFile(file);
 
             for (Putusan p : data) {
                 repository.simpan(p);

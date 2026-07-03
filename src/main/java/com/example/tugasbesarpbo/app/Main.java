@@ -16,7 +16,7 @@ public class Main extends Application {
     private static final KnowledgeController controller = new KnowledgeController(repository);
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("JavaFXView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/tugasbesarpbo/JavaFXView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         FXMLController fxController = fxmlLoader.getController();
         fxController.setController(controller);

@@ -71,42 +71,12 @@ public class Putusan implements Displayable {
         System.out.println(nomorPerkara.get() + " - " + namaTerdakwa.get() + " (" + jenisNarkotika.get() + ")");
     }
 
-    @Override
-    public void tampilkan(boolean detail) {
-        if (detail) {
-            System.out.println("==============================");
-            System.out.println("Nomor Perkara  : " + nomorPerkara.get());
-            System.out.println("Pengadilan     : " + pengadilan.get());
-            System.out.println("Tanggal Putusan: " + tanggalPutusan.get());
-            System.out.println("Nama Terdakwa  : " + namaTerdakwa.get());
-            System.out.println("Umur           : " + umurTerdakwa.get() + " tahun");
-            System.out.println("Jenis Narkotika: " + jenisNarkotika.get());
-            System.out.println("Berat BB       : " + beratBarangBukti.get() + " gram");
-            System.out.println("Pasal Dilanggar: " + pasalDilanggar.get());
-            System.out.println("Peran Terdakwa : " + peranTerdakwa.get());
-            System.out.println("Vonis Hukuman  : " + vonisHukuman.get() + " bulan");
-            System.out.println("Vonis Denda    : Rp" + String.format("%.0f", vonisDenda.get()));
-            System.out.println("Nama Hakim     : " + namaHakim.get());
-            System.out.println("Kategori       : " + getKategoriHukuman());
-            System.out.println("==============================");
-        } else {
-            tampilkan();
-        }
-    }
 
     // ==================== STATIC METHOD ====================
-
-    public static int getJumlahDibuat() {
-        return jumlahDibuat;
-    }
 
 
     // ==================== DISPLAYABLE (overloading) ====================
 
-    @Override
-    public void tampilkan() {
-        System.out.println(nomorPerkara.get() + " - " + namaTerdakwa.get() + " (" + jenisNarkotika.get() + ")");
-    }
 
     @Override
     public void tampilkan(boolean detail) {
@@ -150,9 +120,11 @@ public class Putusan implements Displayable {
     public String getNomorPerkara() {
         return nomorPerkara.get();
     }
+
     public void setNomorPerkara(String nomorPerkara) {
         this.nomorPerkara.set(nomorPerkara);
     }
+
     public SimpleStringProperty nomorPerkaraProperty() {
         return nomorPerkara;
     }
@@ -160,9 +132,11 @@ public class Putusan implements Displayable {
     public String getPengadilan() {
         return pengadilan.get();
     }
+
     public void setPengadilan(String pengadilan) {
         this.pengadilan.set(pengadilan);
     }
+
     public SimpleStringProperty pengadilanProperty() {
         return pengadilan;
     }
@@ -170,9 +144,11 @@ public class Putusan implements Displayable {
     public String getTanggalPutusan() {
         return tanggalPutusan.get();
     }
+
     public void setTanggalPutusan(String tanggalPutusan) {
         this.tanggalPutusan.set(tanggalPutusan);
     }
+
     public SimpleStringProperty tanggalPutusanProperty() {
         return tanggalPutusan;
     }
@@ -180,9 +156,11 @@ public class Putusan implements Displayable {
     public String getNamaTerdakwa() {
         return namaTerdakwa.get();
     }
+
     public void setNamaTerdakwa(String namaTerdakwa) {
         this.namaTerdakwa.set(namaTerdakwa);
     }
+
     public SimpleStringProperty namaTerdakwaProperty() {
         return namaTerdakwa;
     }
@@ -190,9 +168,11 @@ public class Putusan implements Displayable {
     public int getUmurTerdakwa() {
         return umurTerdakwa.get();
     }
+
     public void setUmurTerdakwa(int umurTerdakwa) {
         this.umurTerdakwa.set(umurTerdakwa);
     }
+
     public SimpleIntegerProperty umurTerdakwaProperty() {
         return umurTerdakwa;
     }
@@ -200,9 +180,11 @@ public class Putusan implements Displayable {
     public String getJenisNarkotika() {
         return jenisNarkotika.get();
     }
+
     public void setJenisNarkotika(String jenisNarkotika) {
         this.jenisNarkotika.set(jenisNarkotika);
     }
+
     public SimpleStringProperty jenisNarkotikaProperty() {
         return jenisNarkotika;
     }
@@ -210,9 +192,11 @@ public class Putusan implements Displayable {
     public double getBeratBarangBukti() {
         return beratBarangBukti.get();
     }
+
     public void setBeratBarangBukti(double berat) {
         this.beratBarangBukti.set(berat);
     }
+
     public SimpleDoubleProperty beratBarangBuktiProperty() {
         return beratBarangBukti;
     }
@@ -220,9 +204,11 @@ public class Putusan implements Displayable {
     public String getPasalDilanggar() {
         return pasalDilanggar.get();
     }
+
     public void setPasalDilanggar(String pasalDilanggar) {
         this.pasalDilanggar.set(pasalDilanggar);
     }
+
     public SimpleStringProperty pasalDilanggarProperty() {
         return pasalDilanggar;
     }
@@ -230,9 +216,11 @@ public class Putusan implements Displayable {
     public String getPeranTerdakwa() {
         return peranTerdakwa.get();
     }
+
     public void setPeranTerdakwa(String peranTerdakwa) {
         this.peranTerdakwa.set(peranTerdakwa);
     }
+
     public SimpleStringProperty peranTerdakwaProperty() {
         return peranTerdakwa;
     }
@@ -240,9 +228,11 @@ public class Putusan implements Displayable {
     public int getVonisHukuman() {
         return vonisHukuman.get();
     }
+
     public void setVonisHukuman(int vonisHukuman) {
         this.vonisHukuman.set(vonisHukuman);
     }
+
     public SimpleIntegerProperty vonisHukumanProperty() {
         return vonisHukuman;
     }
@@ -250,9 +240,11 @@ public class Putusan implements Displayable {
     public double getVonisDenda() {
         return vonisDenda.get();
     }
+
     public void setVonisDenda(double vonisDenda) {
         this.vonisDenda.set(vonisDenda);
     }
+
     public SimpleDoubleProperty vonisDendaProperty() {
         return vonisDenda;
     }
@@ -260,9 +252,11 @@ public class Putusan implements Displayable {
     public String getNamaHakim() {
         return namaHakim.get();
     }
+
     public void setNamaHakim(String namaHakim) {
         this.namaHakim.set(namaHakim);
     }
+
     public SimpleStringProperty namaHakimProperty() {
         return namaHakim;
     }
