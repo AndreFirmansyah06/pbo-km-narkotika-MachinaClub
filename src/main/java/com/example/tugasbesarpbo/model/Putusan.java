@@ -264,6 +264,7 @@ public class Putusan implements Displayable {
         this.namaHakim.set(namaHakim);
     }
     public SimpleStringProperty namaHakimProperty() {
-        return namaHakim; }
+        return namaHakim;
+    }
 }
 
