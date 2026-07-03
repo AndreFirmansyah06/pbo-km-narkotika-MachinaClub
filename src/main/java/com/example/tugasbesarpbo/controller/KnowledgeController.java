@@ -52,6 +52,13 @@ public class KnowledgeController {
         String peran          = InputHandler.validasiString(peranStr, "Peran");
         String hakim          = InputHandler.validasiString(hakimStr, "Hakim");
 
+        // Validasi nomor perkara tidak boleh duplikat
+        if (repository.cariByNomor(nomorPerkara) != null) {
+            throw new IllegalArgumentException(
+                    "Nomor perkara \"" + nomorPerkara + "\" sudah terdaftar.");
+        }
+
+
         // 2. Validasi & parsing field numerik (lewat InputHandler)
         int umur            = InputHandler.validasiInt(umurStr, "Umur Terdakwa");
         double berat         = InputHandler.validasiDouble(beratStr, "Berat Barang Bukti");
