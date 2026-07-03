@@ -52,6 +52,13 @@ public class KnowledgeController {
         String peran          = InputHandler.validasiString(peranStr, "Peran");
         String hakim          = InputHandler.validasiString(hakimStr, "Hakim");
 
+        // Validasi nomor perkara tidak boleh duplikat
+        if (repository.cariByNomor(nomorPerkara) != null) {
+            throw new IllegalArgumentException(
+                    "Nomor perkara \"" + nomorPerkara + "\" sudah terdaftar.");
+        }
+
+
         // 2. Validasi & parsing field numerik (lewat InputHandler)
         int umur            = InputHandler.validasiInt(umurStr, "Umur Terdakwa");
         double berat         = InputHandler.validasiDouble(beratStr, "Berat Barang Bukti");
@@ -120,7 +127,7 @@ public class KnowledgeController {
             return hasil;
         }
         switch (mode.toLowerCase()) {
-            case "nomor":
+            case "nomor perkara":
                 Putusan p = repository.cariByNomor(keyword);
                 if (p != null) hasil.add(p);
                 break;
@@ -168,6 +175,19 @@ public class KnowledgeController {
             System.out.println(e);
         }
 
+    }
+
+    // METHOD UNTUK FILTER RENTANG VONIS
+    public ArrayList<Putusan> filterByRentangVonis(String vonisMinStr, String vonisMaxStr) {
+        int vonisMin = InputHandler.validasiInt(vonisMinStr, "Vonis Minimal");
+        int vonisMax = InputHandler.validasiInt(vonisMaxStr, "Vonis Maksimal");
+
+        if (vonisMin > vonisMax) {
+            throw new IllegalArgumentException(
+                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
+        }
+
+        return repository.filterByVonisRange(vonisMin, vonisMax);
     }
 
 }
