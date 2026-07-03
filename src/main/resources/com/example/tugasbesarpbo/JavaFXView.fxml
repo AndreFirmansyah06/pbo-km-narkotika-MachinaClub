@@ -20,4 +20,22 @@
             fx:controller="com.example.tugasbesarpbo.view.FXMLController"
             prefHeight="400.0" prefWidth="600.0">
 
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- ================= TOP: HEADER ================= -->
+    <top>
+        <VBox spacing="5">
+            <padding>
+                <Insets top="0" right="0" bottom="10" left="0"/>
+            </padding>
+            <children>
+                <Label text="KNOWLEDGE MANAGEMENT SYSTEM"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Label text="Putusan Pengadilan Narkotika"
+                       style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
+            </children>
+        </VBox>
+    </top>
 </BorderPane>
