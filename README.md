@@ -37,7 +37,7 @@ Dataset yang digunakan berasal dari putusan perkara pidana narkotika (Pid.Sus) P
 1. Clone repository.
 
 ```bash
-git clone <URL_REPOSITORY>
+git clone https://github.com/AndreFirmansyah06/pbo-km-narkotika-MachinaClub.git
 ```
 
 2. Buka project menggunakan IntelliJ IDEA.
