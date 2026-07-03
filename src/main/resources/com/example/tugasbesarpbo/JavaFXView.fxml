@@ -224,4 +224,31 @@
             <Label fx:id="lblTotalData" text="Total: 0 data"/>
         </VBox>
     </center>
+
+    <!-- ================= RIGHT: STATISTIK ================= -->
+    <right>
+        <VBox spacing="10" prefWidth="250"
+              style="-fx-background-color: #ecf0f1; -fx-background-radius: 5;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <Label text="📊 Statistik Ringkasan" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+                <Label fx:id="lblTotalPutusan" text="Total Putusan: 0" maxWidth="Infinity"
+                       style="-fx-font-size: 12px; -fx-padding: 5px; -fx-background-color: white; -fx-background-radius: 3;"/>
+                <Label fx:id="lblRataRataVonis" text="Rata-rata Vonis: 0 bulan" maxWidth="Infinity"
+                       style="-fx-font-size: 12px; -fx-padding: 5px; -fx-background-color: white; -fx-background-radius: 3;"/>
+                <Label fx:id="lblRataRataDenda" text="Rata-rata Denda: Rp 0" maxWidth="Infinity"
+                       style="-fx-font-size: 12px; -fx-padding: 5px; -fx-background-color: white; -fx-background-radius: 3;"/>
+                <Label fx:id="lblJenisTerbanyak" text="Jenis Terbanyak: -" maxWidth="Infinity"
+                       style="-fx-font-size: 12px; -fx-padding: 5px; -fx-background-color: white; -fx-background-radius: 3;"/>
+
+                <Label text="Distribusi Peran:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtDistribusiPeran" editable="false" prefHeight="200"
+                          style="-fx-font-family: monospace;"/>
+            </children>
+        </VBox>
+    </right>
+
 </BorderPane>
