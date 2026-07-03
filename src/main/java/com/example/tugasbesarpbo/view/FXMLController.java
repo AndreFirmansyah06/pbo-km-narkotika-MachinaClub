@@ -107,6 +107,28 @@ public class FXMLController {
         }
     }
 
+    @FXML
+    private void onHapusPutusan() {
+        String nomor = txtNomorPerkara.getText();
+        if (nomor == null || nomor.isBlank()) {
+            setStatus("Pilih nomor perkara yang ingin dihapus.");
+            return;
+        }
+        boolean berhasil = controller.hapusPutusan(nomor.trim());
+        if (berhasil) {
+            setStatus("");
+            showAlert(Alert.AlertType.INFORMATION,"Hapus Data Putusan","Data putusan nomor " + nomor + " berhasil dihapus");
+            onClearForm();
+            refreshTabel(controller.getSemuaPutusan());
+            amountData();
+            updateStatistik();
+        } else {
+            setStatus("");
+            showAlert(Alert.AlertType.WARNING,"Hapus Data Putusan","Data dengan nomor perkara tersebut tidak ditemukan");
+        }
+    }
+
+
 
     public void setStatus(String pesan) {
         lblStatus.setText(pesan);
