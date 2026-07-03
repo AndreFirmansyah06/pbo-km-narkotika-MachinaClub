@@ -60,6 +60,9 @@ public class FXMLController {
     @FXML private Label lblStatus;
     @FXML private Label lblTotalData;
 
+    private KnowledgeController controller;
+
+    private ObservableList<Putusan> dataList = FXCollections.observableArrayList();
 
     public void setController(KnowledgeController controller) {
         this.controller = controller;
@@ -228,9 +231,7 @@ public class FXMLController {
         tablePutusan.refresh();
     }
 
-    public void setStatus(String pesan) {
-        lblStatus.setText(pesan);
-    }
+
 
     private void amountData() {
         lblTotalData.setText("Total: " + controller.getTotalDataPutusan() + " data");
@@ -340,5 +341,27 @@ public class FXMLController {
         refreshTabel(controller.getSemuaPutusan());
         setStatus("Menampilkan seluruh data putusan.");
     }
+
+
+    @FXML
+    private void onUploadFile() {
+        FileChooser chooser = new FileChooser();
+        Stage stage = (Stage) btnUploadFile.getScene().getWindow();
+
+        File file = chooser.showOpenDialog(stage);
+
+        controller.importData(file);
+
+        refreshTabel(controller.getSemuaPutusan());
+        amountData();
+        updateStatistik();
+    }
+
+    @FXML
+    private void onResetForm() {
+        onClearForm();
+        setStatus("Form telah direset.");
+    }
+
 
 }
