@@ -62,7 +62,7 @@ Ctrl + F9
 
 # Cara Menjalankan
 
-1. Pastikan file dataset (`putusan.csv`) telah tersedia pada folder yang telah ditentukan.
+1. Pastikan file dataset (`dataset.csv`) telah tersedia pada folder yang telah ditentukan.
 
 2. Jalankan class `Main`.
 
