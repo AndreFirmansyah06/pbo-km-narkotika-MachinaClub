@@ -29,6 +29,87 @@ public class FXMLController {
     @FXML private TextField txtVonisDenda;
     @FXML private TextField txtNamaHakim;
 
+    // TABEL
+    @FXML private TableView<Putusan> tablePutusan;
+    @FXML private TableColumn<Putusan, String> colNomor;
+    @FXML private TableColumn<Putusan, String> colNama;
+    @FXML private TableColumn<Putusan, String> colJenis;
+    @FXML private TableColumn<Putusan, Double> colBerat;
+    @FXML private TableColumn<Putusan, String> colPeran;
+    @FXML private TableColumn<Putusan, Integer> colVonis;
+    @FXML private TableColumn<Putusan, Double> colDenda;
+    @FXML private TableColumn<Putusan, String> colHakim;
+
+    // PENCARIAN & FILTER
+    @FXML private TextField txtCari;
+    @FXML private Button btnUploadFile;
+    @FXML private TextField txtVonisMin;
+    @FXML private TextField txtVonisMax;
+    @FXML private ComboBox<String> cmbFilterJenis;
+    @FXML private ComboBox<String> cmbFilterPengadilan;
+    @FXML private ComboBox<String> cbSearchMode;
+
+    // STATISTIK
+    @FXML private Label lblTotalPutusan;
+    @FXML private Label lblRataRataVonis;
+    @FXML private Label lblRataRataDenda;
+    @FXML private Label lblJenisTerbanyak;
+    @FXML private TextArea txtDistribusiPeran;
+
+    // STATUS
+    @FXML private Label lblStatus;
+    @FXML private Label lblTotalData;
+
+
+    public void setController(KnowledgeController controller) {
+        this.controller = controller;
+        refreshTabel(controller.getSemuaPutusan());
+        amountData();
+    }
+
+    @FXML
+    public void initialize() {
+        // SETUP KOLOM
+        colNomor.setCellValueFactory(cell ->
+                cell.getValue().nomorPerkaraProperty());
+        colNama.setCellValueFactory(cell ->
+                cell.getValue().namaTerdakwaProperty());
+        colJenis.setCellValueFactory(cell ->
+                cell.getValue().jenisNarkotikaProperty());
+        colBerat.setCellValueFactory(cell ->
+                cell.getValue().beratBarangBuktiProperty().asObject());
+        colPeran.setCellValueFactory(cell ->
+                cell.getValue().peranTerdakwaProperty());
+        colVonis.setCellValueFactory(cell ->
+                cell.getValue().vonisHukumanProperty().asObject());
+        colDenda.setCellValueFactory(cell ->
+                cell.getValue().vonisDendaProperty().asObject());
+        colHakim.setCellValueFactory(cell ->
+                cell.getValue().namaHakimProperty());
+
+
+        // EVENT UNTUK UPDATE (KLIK DATA DI TABEL DAN DATA AKAN MUNCUL DI FORM
+        tablePutusan.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    if (newVal != null) {
+                        txtNomorPerkara.setText(newVal.getNomorPerkara());
+                        txtPengadilan.setText(newVal.getPengadilan());
+                        txtTanggalPutusan.setText(newVal.getTanggalPutusan());
+                        txtNamaTerdakwa.setText(newVal.getNamaTerdakwa());
+                        txtUmurTerdakwa.setText(String.valueOf(newVal.getUmurTerdakwa()));
+                        cmbJenisNarkotika.setValue(newVal.getJenisNarkotika());
+                        txtBeratBarangBukti.setText(String.valueOf(newVal.getBeratBarangBukti()));
+                        txtPasalDilanggar.setText(newVal.getPasalDilanggar());
+                        cmbPeranTerdakwa.setValue(newVal.getPeranTerdakwa());
+                        txtVonisHukuman.setText(String.valueOf(newVal.getVonisHukuman()));
+                        txtVonisDenda.setText(String.valueOf(newVal.getVonisDenda()));
+                        txtNamaHakim.setText(newVal.getNamaHakim());
+                    }
+                }
+        );
+
+        tablePutusan.setItems(dataList);
+    }
 
     @FXML
     private void onTambahPutusan() {
@@ -196,4 +277,68 @@ public class FXMLController {
         txtVonisDenda.clear();
         txtNamaHakim.clear();
     }
+
+    @FXML
+    private void onSearch() {
+        String keyword = txtCari.getText();
+        String mode = cbSearchMode.getValue();
+        System.out.println(mode);
+        ArrayList<Putusan> hasil = controller.cariPutusan(keyword, mode);
+        refreshTabel(hasil);
+        setStatus("Ditemukan " + hasil.size() + " data untuk pencarian \"" + keyword + "\".");
+    }
+
+    @FXML
+    private void onFilter() {
+
+        String jenis = cmbFilterJenis.getValue();
+        String pengadilan = cmbFilterPengadilan.getValue();
+
+        String kategori;
+        String keyword;
+
+        if (jenis != null) {
+            kategori = "jenis";
+            keyword = jenis;
+        } else if (pengadilan != null) {
+            kategori = "pengadilan";
+            keyword = pengadilan;
+        } else {
+            setStatus("Pilih filter terlebih dahulu.");
+            return;
+        }
+
+        ArrayList<Putusan> hasil = controller.filterPutusan(kategori, keyword);
+
+        refreshTabel(hasil);
+        setStatus("Ditemukan " + hasil.size() + " data.");
+    }
+
+    @FXML
+    private void onFilterVonis() {
+        try {
+            ArrayList<Putusan> hasil = controller.filterByRentangVonis(
+                    txtVonisMin.getText(),
+                    txtVonisMax.getText()
+            );
+            refreshTabel(hasil);
+            setStatus("Filter vonis diterapkan: " + hasil.size() + " data ditemukan.");
+        } catch (IllegalArgumentException e) {
+            setStatus(e.getMessage());
+        }
+    }
+
+
+    @FXML
+    private void onResetFilter() {
+        txtCari.clear();
+        txtVonisMin.clear();
+        txtVonisMax.clear();
+        cmbFilterJenis.setValue("Semua");
+        cmbFilterPengadilan.setValue("Semua");
+        cbSearchMode.setValue("Nama");
+        refreshTabel(controller.getSemuaPutusan());
+        setStatus("Menampilkan seluruh data putusan.");
+    }
+
 }
