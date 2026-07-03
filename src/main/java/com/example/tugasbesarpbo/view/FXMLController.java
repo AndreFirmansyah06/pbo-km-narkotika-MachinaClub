@@ -64,6 +64,49 @@ public class FXMLController {
         }
     }
 
+    @FXML
+    private void onUpdatePutusan() {
+        String nomor = txtNomorPerkara.getText();
+        if (nomor == null || nomor.isBlank()) {
+            setStatus("Nomor perkara tidak boleh kosong saat update.");
+            return;
+        }
+        String jenisNarkotika = cmbJenisNarkotika.getValue();
+        String peranTerdakwa = cmbPeranTerdakwa.getValue();
+
+        try {
+            boolean berhasil = controller.updatePutusan(
+                    nomor.trim(),
+                    txtNomorPerkara.getText(),
+                    txtPengadilan.getText(),
+                    txtTanggalPutusan.getText(),
+                    txtNamaTerdakwa.getText(),
+                    txtUmurTerdakwa.getText(),
+                    jenisNarkotika,
+                    txtBeratBarangBukti.getText(),
+                    txtPasalDilanggar.getText(),
+                    peranTerdakwa,
+                    txtVonisHukuman.getText(),
+                    txtVonisDenda.getText(),
+                    txtNamaHakim.getText()
+            );
+            if (berhasil) {
+                showAlert(Alert.AlertType.INFORMATION,"Update Data Putusan","Data Putusan Berhasil Diupdate");
+                setStatus("");
+                onClearForm();
+                refreshTabel(controller.getSemuaPutusan());
+                amountData();
+                updateStatistik();
+            } else {
+                setStatus("");
+                showAlert(Alert.AlertType.WARNING,"Update Data Putusan","Data dengan nomor perkara "+nomor+" tersebut tidak ditemukan");
+            }
+        } catch (IllegalArgumentException e) {
+            setStatus("");
+            showAlert(Alert.AlertType.WARNING,"Update Data Putusan","Pastikan kolom Umur, Berat, Vonis Hukuman, dan Denda berisi angka yang valid");
+        }
+    }
+
 
     public void setStatus(String pesan) {
         lblStatus.setText(pesan);
