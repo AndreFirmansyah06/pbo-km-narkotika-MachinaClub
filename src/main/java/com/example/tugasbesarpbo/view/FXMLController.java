@@ -141,4 +141,59 @@ public class FXMLController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    public void refreshTabel(ArrayList<Putusan> list) {
+        dataList.setAll(list);
+        tablePutusan.refresh();
+    }
+
+    public void setStatus(String pesan) {
+        lblStatus.setText(pesan);
+    }
+
+    private void amountData() {
+        lblTotalData.setText("Total: " + controller.getTotalDataPutusan() + " data");
+    }
+
+    public void updateStatistik() {
+        StatistikPutusan stat = controller.getStatistik();
+
+        lblTotalPutusan.setText(
+                "Total Putusan : " + stat.getTotalPutusan());
+
+        lblRataRataVonis.setText(
+                String.format("Rata-rata Vonis : %.0f bulan",
+                        stat.getRataRataVonis()));
+
+        lblRataRataDenda.setText(
+                String.format("Rata-rata Denda : Rp %.2f",
+                        stat.getRataRataDenda()));
+
+        lblJenisTerbanyak.setText(
+                "Jenis Terbanyak : " +
+                        stat.getJenisNarkotikaTerbanyak());
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String s : stat.getDistribusiPeran()) {
+            sb.append("• ").append(s).append("\n");
+        }
+
+        txtDistribusiPeran.setText(sb.toString());
+    }
+
+    public void onClearForm() {
+        txtNomorPerkara.clear();
+        txtPengadilan.clear();
+        txtTanggalPutusan.clear();
+        txtNamaTerdakwa.clear();
+        txtUmurTerdakwa.clear();
+        cmbJenisNarkotika.setValue("Pilih jenis narkotika");
+        cmbPeranTerdakwa.setValue("Pilih peran terdakwa");
+        txtBeratBarangBukti.clear();
+        txtPasalDilanggar.clear();
+        txtVonisHukuman.clear();
+        txtVonisDenda.clear();
+        txtNamaHakim.clear();
+    }
 }
