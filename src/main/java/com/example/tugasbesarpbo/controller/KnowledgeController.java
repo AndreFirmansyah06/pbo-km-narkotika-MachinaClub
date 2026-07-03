@@ -127,7 +127,7 @@ public class KnowledgeController {
             return hasil;
         }
         switch (mode.toLowerCase()) {
-            case "nomor":
+            case "nomor perkara":
                 Putusan p = repository.cariByNomor(keyword);
                 if (p != null) hasil.add(p);
                 break;
@@ -175,6 +175,19 @@ public class KnowledgeController {
             System.out.println(e);
         }
 
+    }
+
+    // METHOD UNTUK FILTER RENTANG VONIS
+    public ArrayList<Putusan> filterByRentangVonis(String vonisMinStr, String vonisMaxStr) {
+        int vonisMin = InputHandler.validasiInt(vonisMinStr, "Vonis Minimal");
+        int vonisMax = InputHandler.validasiInt(vonisMaxStr, "Vonis Maksimal");
+
+        if (vonisMin > vonisMax) {
+            throw new IllegalArgumentException(
+                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
+        }
+
+        return repository.filterByVonisRange(vonisMin, vonisMax);
     }
 
 }
