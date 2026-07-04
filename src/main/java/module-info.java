@@ -1,8 +1,10 @@
 module com.example.tugasbesarpbo {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.apache.commons.csv;
 
-
-    opens com.example.tugasbesarpbo to javafx.fxml;
-    exports com.example.tugasbesarpbo;
+    exports com.example.tugasbesarpbo.view;
+    opens com.example.tugasbesarpbo.view to javafx.fxml;
+    opens com.example.tugasbesarpbo.app to javafx.fxml;
+    exports com.example.tugasbesarpbo.app;
 }
