@@ -81,7 +81,7 @@ Video demonstrasi aplikasi dapat diakses melalui:
 
 **Link Video:**
 
-> *(Tambahkan tautan Google Drive / YouTube setelah video selesai dibuat.)*
+> https://youtu.be/WBr3b1Dn4Wg?si=YjiID72xVCR_pZyA
 
 ---
 
