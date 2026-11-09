@@ -1,6 +1,7 @@
 package com.example.tugasbesarpbo.view;
 
 import com.example.tugasbesarpbo.model.StatistikPutusan;
+import com.example.tugasbesarpbo.util.DynamicArray;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,54 +12,89 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collection;
+//import java.util.ArrayList;
 
 public class FXMLController {
     // FORM INPUT
     @FXML
     private TextField txtNomorPerkara;
-    @FXML private TextField txtPengadilan;
-    @FXML private TextField txtTanggalPutusan;
-    @FXML private TextField txtNamaTerdakwa;
-    @FXML private TextField txtUmurTerdakwa;
-    @FXML private ComboBox<String> cmbJenisNarkotika;
-    @FXML private TextField txtBeratBarangBukti;
-    @FXML private TextField txtPasalDilanggar;
-    @FXML private ComboBox<String> cmbPeranTerdakwa;
-    @FXML private TextField txtVonisHukuman;
-    @FXML private TextField txtVonisDenda;
-    @FXML private TextField txtNamaHakim;
+    @FXML
+    private TextField txtPengadilan;
+    @FXML
+    private TextField txtTanggalPutusan;
+    @FXML
+    private TextField txtNamaTerdakwa;
+    @FXML
+    private TextField txtUmurTerdakwa;
+    @FXML
+    private ComboBox<String> cmbJenisNarkotika;
+    @FXML
+    private TextField txtBeratBarangBukti;
+    @FXML
+    private TextField txtPasalDilanggar;
+    @FXML
+    private ComboBox<String> cmbPeranTerdakwa;
+    @FXML
+    private TextField txtVonisHukuman;
+    @FXML
+    private TextField txtVonisDenda;
+    @FXML
+    private TextField txtNamaHakim;
 
     // TABEL
-    @FXML private TableView<Putusan> tablePutusan;
-    @FXML private TableColumn<Putusan, String> colNomor;
-    @FXML private TableColumn<Putusan, String> colNama;
-    @FXML private TableColumn<Putusan, String> colJenis;
-    @FXML private TableColumn<Putusan, Double> colBerat;
-    @FXML private TableColumn<Putusan, String> colPeran;
-    @FXML private TableColumn<Putusan, Integer> colVonis;
-    @FXML private TableColumn<Putusan, Double> colDenda;
-    @FXML private TableColumn<Putusan, String> colHakim;
+    @FXML
+    private TableView<Putusan> tablePutusan;
+    @FXML
+    private TableColumn<Putusan, String> colNomor;
+    @FXML
+    private TableColumn<Putusan, String> colNama;
+    @FXML
+    private TableColumn<Putusan, String> colJenis;
+    @FXML
+    private TableColumn<Putusan, Double> colBerat;
+    @FXML
+    private TableColumn<Putusan, String> colPeran;
+    @FXML
+    private TableColumn<Putusan, Integer> colVonis;
+    @FXML
+    private TableColumn<Putusan, Double> colDenda;
+    @FXML
+    private TableColumn<Putusan, String> colHakim;
 
     // PENCARIAN & FILTER
-    @FXML private TextField txtCari;
-    @FXML private Button btnUploadFile;
-    @FXML private TextField txtVonisMin;
-    @FXML private TextField txtVonisMax;
-    @FXML private ComboBox<String> cmbFilterJenis;
-    @FXML private ComboBox<String> cmbFilterPengadilan;
-    @FXML private ComboBox<String> cbSearchMode;
+    @FXML
+    private TextField txtCari;
+    @FXML
+    private Button btnUploadFile;
+    @FXML
+    private TextField txtVonisMin;
+    @FXML
+    private TextField txtVonisMax;
+    @FXML
+    private ComboBox<String> cmbFilterJenis;
+    @FXML
+    private ComboBox<String> cmbFilterPengadilan;
+    @FXML
+    private ComboBox<String> cbSearchMode;
 
     // STATISTIK
-    @FXML private Label lblTotalPutusan;
-    @FXML private Label lblRataRataVonis;
-    @FXML private Label lblRataRataDenda;
-    @FXML private Label lblJenisTerbanyak;
-    @FXML private TextArea txtDistribusiPeran;
+    @FXML
+    private Label lblTotalPutusan;
+    @FXML
+    private Label lblRataRataVonis;
+    @FXML
+    private Label lblRataRataDenda;
+    @FXML
+    private Label lblJenisTerbanyak;
+    @FXML
+    private TextArea txtDistribusiPeran;
 
     // STATUS
-    @FXML private Label lblStatus;
-    @FXML private Label lblTotalData;
+    @FXML
+    private Label lblStatus;
+    @FXML
+    private Label lblTotalData;
 
     private KnowledgeController controller;
 
@@ -136,7 +172,7 @@ public class FXMLController {
             );
 
             setStatus("");
-            showAlert(Alert.AlertType.INFORMATION,"Tambah Data Putusan","Data Putusan Berhasil Ditambahkan");
+            showAlert(Alert.AlertType.INFORMATION, "Tambah Data Putusan", "Data Putusan Berhasil Ditambahkan");
             onClearForm();
             refreshTabel(controller.getSemuaPutusan());
             amountData();
@@ -144,7 +180,7 @@ public class FXMLController {
 
         } catch (IllegalArgumentException e) {
             setStatus("");
-            showAlert(Alert.AlertType.WARNING,"Tambah Data Putusan","Pastikan kolom Umur, Berat, Vonis Hukuman, dan Denda berisi angka yang valid");
+            showAlert(Alert.AlertType.WARNING, "Tambah Data Putusan", "Pastikan kolom Umur, Berat, Vonis Hukuman, dan Denda berisi angka yang valid");
         }
     }
 
@@ -213,7 +249,6 @@ public class FXMLController {
     }
 
 
-
     public void setStatus(String pesan) {
         lblStatus.setText(pesan);
     }
@@ -226,11 +261,15 @@ public class FXMLController {
         alert.showAndWait();
     }
 
-    public void refreshTabel(ArrayList<Putusan> list) {
-        dataList.setAll(list);
+    public void refreshTabel(DynamicArray<Putusan> list) {
+        dataList.clear();
+
+        for (int i = 0; i < list.size(); i++) {
+            Putusan p = list.get(i); // Ambil data secara manual pakai indeks
+            dataList.add(p);
+        }
         tablePutusan.refresh();
     }
-
 
 
     private void amountData() {
@@ -279,55 +318,55 @@ public class FXMLController {
         txtNamaHakim.clear();
     }
 
-    @FXML
-    private void onSearch() {
-        String keyword = txtCari.getText();
-        String mode = cbSearchMode.getValue();
-        System.out.println(mode);
-        ArrayList<Putusan> hasil = controller.cariPutusan(keyword, mode);
-        refreshTabel(hasil);
-        setStatus("Ditemukan " + hasil.size() + " data untuk pencarian \"" + keyword + "\".");
-    }
+//    @FXML
+//    private void onSearch() {
+//        String keyword = txtCari.getText();
+//        String mode = cbSearchMode.getValue();
+//        System.out.println(mode);
+//        ArrayList<Putusan> hasil = controller.cariPutusan(keyword, mode);
+//        refreshTabel(hasil);
+//        setStatus("Ditemukan " + hasil.size() + " data untuk pencarian \"" + keyword + "\".");
+//    }
 
-    @FXML
-    private void onFilter() {
+//    @FXML
+//    private void onFilter() {
+//
+//        String jenis = cmbFilterJenis.getValue();
+//        String pengadilan = cmbFilterPengadilan.getValue();
+//
+//        String kategori;
+//        String keyword;
+//
+//        if (jenis != null) {
+//            kategori = "jenis";
+//            keyword = jenis;
+//        } else if (pengadilan != null) {
+//            kategori = "pengadilan";
+//            keyword = pengadilan;
+//        } else {
+//            setStatus("Pilih filter terlebih dahulu.");
+//            return;
+//        }
+//
+//        ArrayList<Putusan> hasil = controller.filterPutusan(kategori, keyword);
+//
+//        refreshTabel(hasil);
+//        setStatus("Ditemukan " + hasil.size() + " data.");
+//    }
 
-        String jenis = cmbFilterJenis.getValue();
-        String pengadilan = cmbFilterPengadilan.getValue();
-
-        String kategori;
-        String keyword;
-
-        if (jenis != null) {
-            kategori = "jenis";
-            keyword = jenis;
-        } else if (pengadilan != null) {
-            kategori = "pengadilan";
-            keyword = pengadilan;
-        } else {
-            setStatus("Pilih filter terlebih dahulu.");
-            return;
-        }
-
-        ArrayList<Putusan> hasil = controller.filterPutusan(kategori, keyword);
-
-        refreshTabel(hasil);
-        setStatus("Ditemukan " + hasil.size() + " data.");
-    }
-
-    @FXML
-    private void onFilterVonis() {
-        try {
-            ArrayList<Putusan> hasil = controller.filterByRentangVonis(
-                    txtVonisMin.getText(),
-                    txtVonisMax.getText()
-            );
-            refreshTabel(hasil);
-            setStatus("Filter vonis diterapkan: " + hasil.size() + " data ditemukan.");
-        } catch (IllegalArgumentException e) {
-            setStatus(e.getMessage());
-        }
-    }
+//    @FXML
+//    private void onFilterVonis() {
+//        try {
+//            ArrayList<Putusan> hasil = controller.filterByRentangVonis(
+//                    txtVonisMin.getText(),
+//                    txtVonisMax.getText()
+//            );
+//            refreshTabel(hasil);
+//            setStatus("Filter vonis diterapkan: " + hasil.size() + " data ditemukan.");
+//        } catch (IllegalArgumentException e) {
+//            setStatus(e.getMessage());
+//        }
+//    }
 
 
     @FXML
@@ -343,19 +382,19 @@ public class FXMLController {
     }
 
 
-    @FXML
-    private void onUploadFile() {
-        FileChooser chooser = new FileChooser();
-        Stage stage = (Stage) btnUploadFile.getScene().getWindow();
-
-        File file = chooser.showOpenDialog(stage);
-
-        controller.importData(file);
-
-        refreshTabel(controller.getSemuaPutusan());
-        amountData();
-        updateStatistik();
-    }
+//    @FXML
+//    private void onUploadFile() {
+//        FileChooser chooser = new FileChooser();
+//        Stage stage = (Stage) btnUploadFile.getScene().getWindow();
+//
+//        File file = chooser.showOpenDialog(stage);
+//
+//        controller.importData(file);
+//
+//        refreshTabel(controller.getSemuaPutusan());
+//        amountData();
+//        updateStatistik();
+//    }
 
     @FXML
     private void onResetForm() {

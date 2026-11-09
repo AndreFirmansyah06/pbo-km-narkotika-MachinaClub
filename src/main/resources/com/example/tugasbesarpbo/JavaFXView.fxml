@@ -116,15 +116,15 @@
                     <Button fx:id="btnHapus" text="Hapus Putusan" maxWidth="Infinity"
                             style="-fx-background-color: #f01d0a; -fx-text-fill: white; -fx-font-weight: bold;"
                             onAction="#onHapusPutusan" HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="btnReset" text="Reset Form" maxWidth="Infinity"
-                            style="-fx-background-color: #f0710a; -fx-text-fill: white;"
-                            onAction="#onResetForm" HBox.hgrow="ALWAYS"/>
+<!--                    <Button fx:id="btnReset" text="Reset Form" maxWidth="Infinity"-->
+<!--                            style="-fx-background-color: #f0710a; -fx-text-fill: white;"-->
+<!--                            onAction="#onResetForm" HBox.hgrow="ALWAYS"/>-->
                 </HBox>
 
             </children>
-            <Button fx:id="btnUploadFile" text="Upload File (.csv)" maxWidth="Infinity"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"
-                    onAction="#onUploadFile" HBox.hgrow="ALWAYS"/>
+<!--            <Button fx:id="btnUploadFile" text="Upload File (.csv)" maxWidth="Infinity"-->
+<!--                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"-->
+<!--                    onAction="#onUploadFile" HBox.hgrow="ALWAYS"/>-->
         </VBox>
     </left>
 
@@ -152,8 +152,8 @@
                             <HBox spacing="10">
                                 <TextField fx:id="txtCari" promptText="Masukkan nomor perkara / nama terdakwa..."
                                            prefWidth="300"/>
-                                <Button fx:id="btnCari" text="🔍 Cari" onAction="#onSearch"
-                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+<!--                                <Button fx:id="btnCari" text="🔍 Cari" onAction="#onSearch"-->
+<!--                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>-->
                             </HBox>
 
                         </VBox>
@@ -190,8 +190,8 @@
                                         </FXCollections>
                                     </items>
                                 </ComboBox>
-                                <Button fx:id="btnFilter" text="🔍 Filter" onAction="#onFilter"
-                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+<!--                                <Button fx:id="btnFilter" text="🔍 Filter" onAction="#onFilter"-->
+<!--                                        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>-->
 
                             </HBox>
                         </VBox>
@@ -202,8 +202,8 @@
                     <TextField fx:id="txtVonisMin" promptText="Min" prefWidth="80"/>
                     <Label text="s/d"/>
                     <TextField fx:id="txtVonisMax" promptText="Maks" prefWidth="80"/>
-                    <Button fx:id="btnFilterVonis" text="🔍 Filter Vonis" onAction="#onFilterVonis"
-                            style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+<!--                    <Button fx:id="btnFilterVonis" text="🔍 Filter Vonis" onAction="#onFilterVonis"-->
+<!--                            style="-fx-background-color: #3498db; -fx-text-fill: white;"/>-->
                     <Button fx:id="btnResetFilter" text="❌ Reset Filter" onAction="#onResetFilter"
                             style="-fx-background-color: #95a5a6; -fx-text-fill: white;" alignment="BOTTOM_RIGHT"/>
                 </HBox>

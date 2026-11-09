@@ -5,9 +5,10 @@ import com.example.tugasbesarpbo.model.StatistikPutusan;
 import  com.example.tugasbesarpbo.util.InputHandler;
 import  com.example.tugasbesarpbo.util.CSVFileHandler;
 import com.example.tugasbesarpbo.model.KnowledgeRepository;
+import com.example.tugasbesarpbo.util.DynamicArray;
 
 import java.io.File;
-import java.util.ArrayList;
+//import java.util.DynamicArray;
 
 public class KnowledgeController {
     private final KnowledgeRepository repository;
@@ -18,7 +19,7 @@ public class KnowledgeController {
     }
 
     // GET ALL DATA
-    public ArrayList<Putusan> getSemuaPutusan() {
+    public DynamicArray<Putusan> getSemuaPutusan() {
 
         return repository.getDaftarSemua();
     }
@@ -116,48 +117,48 @@ public class KnowledgeController {
         repository.update(nomor, dataBaru);
         return true;
     }
-
-    // DELETE DATA
+//
+//    // DELETE DATA
     public boolean hapusPutusan(String nomor) {
 
         return repository.hapus(nomor);
     }
-
-    // SEARCH DATA
-    public ArrayList<Putusan> cariPutusan(String keyword, String mode) {
-        ArrayList<Putusan> hasil = new ArrayList<>();
-        if (keyword == null || keyword.isBlank() || mode == null) {
-            return hasil;
-        }
-        switch (mode.toLowerCase()) {
-            case "nomor perkara":
-                Putusan p = repository.cariByNomor(keyword);
-                if (p != null) hasil.add(p);
-                break;
-            case "nama":
-                hasil = repository.cariByNama(keyword);
-                break;
-            default:
-                // mode tidak dikenali -> hasil kosong
-                break;
-        }
-        return hasil;
-    }
+//
+//    // SEARCH DATA
+//    public DynamicArray<Putusan> cariPutusan(String keyword, String mode) {
+//        DynamicArray<Putusan> hasil = new DynamicArray<>();
+//        if (keyword == null || keyword.isBlank() || mode == null) {
+//            return hasil;
+//        }
+//        switch (mode.toLowerCase()) {
+//            case "nomor perkara":
+//                Putusan p = repository.cariByNomor(keyword);
+//                if (p != null) hasil.add(p);
+//                break;
+//            case "nama":
+//                hasil = repository.cariByNama(keyword);
+//                break;
+//            default:
+//                // mode tidak dikenali -> hasil kosong
+//                break;
+//        }
+//        return hasil;
+//    }
 
     // FILTER DATA
-    public ArrayList<Putusan> filterPutusan(String kriteria, String nilai) {
-        if (kriteria == null || nilai == null) {
-            return new ArrayList<>();
-        }
-        switch (kriteria.toLowerCase()) {
-            case "jenis":
-                return repository.filterByJenis(nilai);
-            case "pengadilan":
-                return repository.filterByPengadilan(nilai);
-            default:
-                return new ArrayList<>();
-        }
-    }
+//    public DynamicArray<Putusan> filterPutusan(String kriteria, String nilai) {
+//        if (kriteria == null || nilai == null) {
+//            return new DynamicArray<>();
+//        }
+//        switch (kriteria.toLowerCase()) {
+//            case "jenis":
+//                return repository.filterByJenis(nilai);
+//            case "pengadilan":
+//                return repository.filterByPengadilan(nilai);
+//            default:
+//                return new DynamicArray<>();
+//        }
+//    }
 
     // GET DATA STATISTIK
     public StatistikPutusan getStatistik() {
@@ -166,31 +167,31 @@ public class KnowledgeController {
     }
 
     // METHOD UNTUK GET DATA DARI FILE .csv
-    public void importData(File file){
-        try{
-            ArrayList<Putusan> data = CSVFileHandler.bacaFile(file);
-
-            for (Putusan p : data) {
-                repository.simpan(p);
-            }
-        } catch (Exception e) {
-
-            System.out.println(e);
-        }
-
-    }
-
-    // METHOD UNTUK FILTER RENTANG VONIS
-    public ArrayList<Putusan> filterByRentangVonis(String vonisMinStr, String vonisMaxStr) {
-        int vonisMin = InputHandler.validasiInt(vonisMinStr, "Vonis Minimal");
-        int vonisMax = InputHandler.validasiInt(vonisMaxStr, "Vonis Maksimal");
-
-        if (vonisMin > vonisMax) {
-            throw new IllegalArgumentException(
-                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
-        }
-
-        return repository.filterByVonisRange(vonisMin, vonisMax);
-    }
+//    public void importData(File file){
+//        try{
+//            DynamicArray<Putusan> data = CSVFileHandler.bacaFile(file);
+//
+//            for (Putusan p : data) {
+//                repository.simpan(p);
+//            }
+//        } catch (Exception e) {
+//
+//            System.out.println(e);
+//        }
+//
+//    }
+//
+//    // METHOD UNTUK FILTER RENTANG VONIS
+//    public DynamicArray<Putusan> filterByRentangVonis(String vonisMinStr, String vonisMaxStr) {
+//        int vonisMin = InputHandler.validasiInt(vonisMinStr, "Vonis Minimal");
+//        int vonisMax = InputHandler.validasiInt(vonisMaxStr, "Vonis Maksimal");
+//
+//        if (vonisMin > vonisMax) {
+//            throw new IllegalArgumentException(
+//                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
+//        }
+//
+//        return repository.filterByVonisRange(vonisMin, vonisMax);
+//    }
 
 }
