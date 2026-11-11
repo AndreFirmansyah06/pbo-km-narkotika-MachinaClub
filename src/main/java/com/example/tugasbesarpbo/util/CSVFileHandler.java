@@ -1,83 +1,120 @@
+
 package com.example.tugasbesarpbo.util;
 
 import com.example.tugasbesarpbo.model.Putusan;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
+import java.io.*;
+import java.time.LocalDate;
 
 public class CSVFileHandler {
 
-    public static ArrayList<Putusan> bacaFile(File file) {
-        ArrayList<Putusan> daftar = new ArrayList<>();
+    public static DynamicArray<Putusan> bacaFile(File file) {
+        DynamicArray<Putusan> daftar = new DynamicArray<>();
 
-        // Konfigurasi CSVFormat: Menggunakan standar RFC4180 dan otomatis melewati baris header
         CSVFormat format = CSVFormat.RFC4180.builder()
                 .setHeader()
                 .setSkipHeaderRecord(true)
-                .setIgnoreEmptyLines(true) // Mengabaikan baris kosong di akhir file
-                .setTrim(true)             // Otomatis menghapus spasi di awal/akhir teks kolom
+                .setIgnoreEmptyLines(true)
+                .setTrim(true)
                 .build();
 
         try (Reader reader = new FileReader(file);
              CSVParser csvParser = new CSVParser(reader, format)) {
 
             for (CSVRecord record : csvParser) {
-                // Mengambil data berdasarkan urutan indeks kolom (mulai dari 0)
-                String nomorPerkara = record.get(0);
-                String pengadilan = record.get(1);
-                String tanggalPutusan = record.get(2);
-                String namaTerdakwa = record.get(3);
 
-                // Parsing nilai integer dengan aman
-                int umurTerdakwa = Integer.parseInt(record.get(4));
+                // ini baru - Ganti break menjadi continue agar tidak menghentikan baris lainnya
+                if (record.size() != 16) {
+                    System.err.println("[SKIP CSV] Baris ke-" + record.getRecordNumber() + " dilewati karena jumlah kolom (" + record.size() + ") != 16");
+                    continue; // ini baru
+                }
 
-                String jenisNarkotika = record.get(5);
+                // ini baru - try-catch di dalam loop agar 1 baris error tidak menggagalkan seluruh file
+                try {
+                    String caseId = record.get(0);
+                    String nomorPerkara = record.get(1);
+                    String pengadilan = record.get(2);
+                    String tanggalStr = record.get(3);
+                    LocalDate tanggal = LocalDate.parse(tanggalStr);
 
-                // Mengatasi koma desimal Indonesia ("0,761") agar bisa di-parse oleh Double Java (".")
-                String beratStr = record.get(6).replace(",", ".");
-                double beratBarangBukti = Double.parseDouble(beratStr);
+                    String kodeTerdakwa = record.get(4);
+                    String jenisNarkotika = record.get(5);
 
-                String pasalDilanggar = record.get(7);
-                String peranTerdakwa = record.get(8);
-                int vonisHukuman = Integer.parseInt(record.get(9));
+                    String beratStr = record.get(6).replace(",", ".");
+                    double beratBarangBuktiGram = Double.parseDouble(beratStr);
 
-                // Mengatasi tanda titik pemisah ribuan pada denda (contoh: 1.000.000.000 -> 1000000000)
-                String dendaStr = record.get(10).replace(".", "");
-                double vonisDenda = Double.parseDouble(dendaStr);
+                    String pasalDakwaan = record.get(7);
+                    String pasalTerbukti = record.get(8);
+                    int tuntutanBulan = Integer.parseInt(record.get(9));
+                    int vonisBulan = Integer.parseInt(record.get(10));
 
-                String namaHakim = record.get(11);
+                    String dendaStr = record.get(11).replace(".", "");
+                    long dendaRupiah = Long.parseLong(dendaStr);
 
-                // Membuat objek Putusan baru
-                Putusan p = new Putusan(
-                        nomorPerkara,
-                        pengadilan,
-                        tanggalPutusan,
-                        namaTerdakwa,
-                        umurTerdakwa,
-                        jenisNarkotika,
-                        beratBarangBukti,
-                        pasalDilanggar,
-                        peranTerdakwa,
-                        vonisHukuman,
-                        vonisDenda,
-                        namaHakim
-                );
+                    String barangBukti = record.get(12);
+                    String keadaanMemberatkan = record.get(13);
+                    String keadaanMeringankan = record.get(14);
+                    String sourcePages = record.get(15);
 
-                daftar.add(p);
+                    Putusan p = new Putusan(
+                            caseId, nomorPerkara, pengadilan, tanggal, kodeTerdakwa, tuntutanBulan, vonisBulan, dendaRupiah, barangBukti,
+                            jenisNarkotika, beratBarangBuktiGram, pasalTerbukti, pasalDakwaan, keadaanMemberatkan, keadaanMeringankan, sourcePages
+                    );
+
+                    daftar.add(p);
+                } catch (Exception e) { // ini baru
+                    System.err.println("[SKIP CSV] Gagal parse baris ke-" + record.getRecordNumber() + ": " + e.getMessage());
+                }
             }
 
         } catch (IOException e) {
             System.err.println("Gagal membaca file CSV: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("Gagal melakukan parsing angka: " + e.getMessage());
         }
 
+        System.out.println("[DEBUG CSV] Total baris CSV berhasil di-parse: " + daftar.size());
         return daftar;
+    }
+
+    public static void eksporFile(File file, DynamicArray<Putusan> data) throws Exception {
+        CSVFormat format = CSVFormat.RFC4180.builder()
+                .setHeader(
+                        "case_id", "nomor_perkara", "pengadilan", "tanggal_putusan",
+                        "kode_terdakwa", "jenis_narkotika", "berat_barang_bukti",
+                        "pasal_dakwaan", "pasal_terbukti", "tuntutan_bulan",
+                        "vonis_bulan", "denda_rupiah", "barang_bukti",
+                        "keadaan_memberatkan", "keadaan_meringankan", "source_pages"
+                )
+                .build();
+
+        try (Writer writer = new FileWriter(file);
+             CSVPrinter csvPrinter = new CSVPrinter(writer, format)) {
+
+            for (int i = 0; i < data.size(); i++) {
+                Putusan p = data.get(i);
+                csvPrinter.printRecord(
+                        p.getCaseId(),
+                        p.getNomorPerkara(),
+                        p.getPengadilan(),
+                        p.getTanggalPutusan() != null ? p.getTanggalPutusan().toString() : "",
+                        p.getterdakawaKode(),
+                        p.getJenisNarkotika(),
+                        p.getBeratBarangBuktiGram(),
+                        p.getpasalDakwaan(),
+                        p.getpasalTerbukti(),
+                        p.gettuntutanBulan(),
+                        p.getVonisBulan(),
+                        p.getdendaRupiah(),
+                        p.getBarangBukti(),
+                        p.getkeadaanMemberatkan(),
+                        p.getkeadaanMeringankan(),
+                        p.getSourcePages()
+                );
+            }
+            csvPrinter.flush();
+        }
     }
 }

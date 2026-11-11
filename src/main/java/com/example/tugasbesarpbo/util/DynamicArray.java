@@ -1,12 +1,12 @@
-package com.example.tugasbesarpbo.util;
 
+package com.example.tugasbesarpbo.util;
 
 import com.example.tugasbesarpbo.model.StrukturData;
 
-
 public class DynamicArray<T> implements StrukturData<T> {
-    private static Object[] elements;
-    private static int size;
+    // ini baru - Hapus kata kunci 'static' agar tiap instance memiliki memori sendiri
+    private Object[] elements;
+    private int size;
     private static final int DEFAULT_CAPACITY = 10;
 
     public DynamicArray() {
@@ -14,7 +14,6 @@ public class DynamicArray<T> implements StrukturData<T> {
         this.size = 0;
         validateInvariant();
     }
-
 
     @Override
     public void add(T value) {
@@ -24,15 +23,19 @@ public class DynamicArray<T> implements StrukturData<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T get(int position) {
         checkIndex(position);
         return (T) elements[position];
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T remove(int position) {
         checkIndex(position);
         T removedElement = (T) elements[position];
+
+        // ini baru - Perbaikan sintaks numMoved
         int numMoved = size - position - 1;
         if (numMoved > 0) {
             System.arraycopy(elements, position + 1, elements, position, numMoved);
@@ -41,7 +44,6 @@ public class DynamicArray<T> implements StrukturData<T> {
         validateInvariant();
         return removedElement;
     }
-
 
     @Override
     public int size() {
@@ -72,33 +74,15 @@ public class DynamicArray<T> implements StrukturData<T> {
         validateInvariant();
     }
 
-//    @Override
-//    public Iterator<T> iterator() {
-//        return new Iterator<T>() {
-//            private int currentIndex = 0;
-//
-//            @Override
-//            public boolean hasNext() {
-//                return currentIndex < size;
-//            }
-//
-//            @Override
-//            @SuppressWarnings("unchecked")
-//            public T next() {
-//                if (!hasNext()) {
-//                    throw new NoSuchElementException();
-//                }
-//                return (T) elements[currentIndex++];
-//            }
-//        };
-//    }
-
     public void insert(int position, T value) {
         if (position < 0 || position > size) {
             throw new IndexOutOfBoundsException("Posisi indeks tidak valid: " + position);
         }
         ensureCapacity();
+
+        // ini baru - Perbaikan sintaks System.arraycopy
         System.arraycopy(elements, position, elements, position + 1, size - position);
+
         elements[position] = value;
         size++;
         validateInvariant();
@@ -121,7 +105,8 @@ public class DynamicArray<T> implements StrukturData<T> {
 
     private void ensureCapacity() {
         if (size >= elements.length) {
-            int newCapacity = elements.length * 2;
+            // ini baru - Perbaikan perbanyakan kapasitas array
+            int newCapacity = elements.length == 0 ? DEFAULT_CAPACITY : elements.length * 2;
             Object[] newArray = new Object[newCapacity];
             System.arraycopy(elements, 0, newArray, 0, elements.length);
             elements = newArray;
@@ -144,15 +129,14 @@ public class DynamicArray<T> implements StrukturData<T> {
         if (size > elements.length) {
             throw new IllegalStateException("Invarian rusak: Ukuran melebihi kapasitas.");
         }
-        // Opsional: pastikan elemen di luar size sudah null
         for (int i = size; i < elements.length; i++) {
             if (elements[i] != null) {
                 throw new IllegalStateException("Invarian rusak: Ada elemen di luar size.");
             }
         }
     }
+
     public int capacity() {
         return elements.length;
     }
 }
-

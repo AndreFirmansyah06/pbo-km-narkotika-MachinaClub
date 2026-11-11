@@ -2,6 +2,7 @@ module com.example.tugasbesarpbo {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.apache.commons.csv;
+    requires java.sql;
 
     exports com.example.tugasbesarpbo.view;
     opens com.example.tugasbesarpbo.view to javafx.fxml;

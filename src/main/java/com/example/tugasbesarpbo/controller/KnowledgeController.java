@@ -2,13 +2,14 @@ package com.example.tugasbesarpbo.controller;
 
 import com.example.tugasbesarpbo.model.Putusan;
 import com.example.tugasbesarpbo.model.StatistikPutusan;
-import  com.example.tugasbesarpbo.util.InputHandler;
-import  com.example.tugasbesarpbo.util.CSVFileHandler;
+import com.example.tugasbesarpbo.util.InputHandler;
+import com.example.tugasbesarpbo.util.CSVFileHandler;
 import com.example.tugasbesarpbo.model.KnowledgeRepository;
 import com.example.tugasbesarpbo.util.DynamicArray;
 
 import java.io.File;
-//import java.util.DynamicArray;
+import java.time.LocalDate;
+
 
 public class KnowledgeController {
     private final KnowledgeRepository repository;
@@ -25,140 +26,146 @@ public class KnowledgeController {
     }
 
     // GET TOTAL DATA
-    public int getTotalDataPutusan(){
+    public int getTotalDataPutusan() {
 
-        return  repository.getTotalData();
+        return repository.getTotalData();
     }
 
     // INSERT DATA
     public void tambahPutusan(
+            String caseIdStr,
             String nomorPerkaraStr,
             String pengadilanStr,
-            String tanggalStr,
-            String namaTerdakwaStr,
-            String umurStr,
+            LocalDate tanggalStr,
+            String kodeTerdakwaStr,
+            String beratBBDb,
             String jenisNarkotikaStr,
-            String beratStr,
-            String pasalStr,
-            String peranStr,
-            String vonisHukumanStr,
-            String vonisDendaStr,
-            String hakimStr
+            String barangBuktiStr,
+            String pasalDakwaanStr,
+            String pasalTerbuktiStr,
+            String vonisBulanStr,
+            String tuntutanBulanStr,
+            String dendaRupiahStr,
+            String keadaanMeringankanStr,
+            String keadaanMemberatkanStr,
+            String sourcePageStr
     ) {
 
         // 1. Validasi & parsing field String wajib (lewat InputHandler)
-        String nomorPerkara   = InputHandler.validasiString(nomorPerkaraStr, "Nomor Perkara");
-        String pengadilan     = InputHandler.validasiString(pengadilanStr, "Pengadilan");
-        String tanggal        = InputHandler.validasiString(tanggalStr, "Tanggal");
-        String namaTerdakwa   = InputHandler.validasiString(namaTerdakwaStr, "Nama Terdakwa");
+        String caseId = InputHandler.validasiString(caseIdStr, "Case Id");
+        String nomorPerkara = InputHandler.validasiString(nomorPerkaraStr, "Nomor Perkara");
+        String pengadilan = InputHandler.validasiString(pengadilanStr, "Pengadilan");
+        LocalDate tanggal = tanggalStr;
+        String kodeTerdakwa = InputHandler.validasiString(kodeTerdakwaStr, "Kode Terdakwa");
         String jenisNarkotika = InputHandler.validasiString(jenisNarkotikaStr, "Jenis Narkotika");
-        String pasal          = InputHandler.validasiString(pasalStr, "Pasal");
-        String peran          = InputHandler.validasiString(peranStr, "Peran");
-        String hakim          = InputHandler.validasiString(hakimStr, "Hakim");
+        Double beratBarangBuktiGram = InputHandler.validasiDouble(beratBBDb, "Berat Barang Bukti");
+        String pasalDakwaan = InputHandler.validasiString(pasalDakwaanStr, "Pasal Dakwaan");
+        String pasalTerbukti = InputHandler.validasiString(pasalTerbuktiStr, "Pasal Terbukti");
+        long dendaRupiah = (long) InputHandler.validasiLong(dendaRupiahStr, "Denda Rupiah");
+        int vonisBulan = InputHandler.validasiInt(vonisBulanStr, "Vonis Bulan");
+        int tuntutanBulan = InputHandler.validasiInt(tuntutanBulanStr, "Tuntutan Bulan");
+        String keadaanMeringankan = InputHandler.validasiString(keadaanMeringankanStr, "Keadaan Meringankan");
+        String keadaanMemberatkan = InputHandler.validasiString(keadaanMemberatkanStr, "Keadaan Memberatkan");
+        String sourcePages = InputHandler.validasiString(sourcePageStr, "Source Pages");
+        String barangBukti = InputHandler.validasiString(barangBuktiStr, "Barang Bukti");
 
         // Validasi nomor perkara tidak boleh duplikat
-        if (repository.cariByNomor(nomorPerkara) != null) {
+        if (repository.isNomorPerkaraExists(nomorPerkara)) {
             throw new IllegalArgumentException(
                     "Nomor perkara \"" + nomorPerkara + "\" sudah terdaftar.");
         }
 
-
-        // 2. Validasi & parsing field numerik (lewat InputHandler)
-        int umur            = InputHandler.validasiInt(umurStr, "Umur Terdakwa");
-        double berat         = InputHandler.validasiDouble(beratStr, "Berat Barang Bukti");
-        int vonisHukuman     = InputHandler.validasiInt(vonisHukumanStr, "Vonis Hukuman");
-        double vonisDenda     = InputHandler.validasiDouble(vonisDendaStr, "Vonis Denda");
-
         Putusan pts = new Putusan(
-                nomorPerkara, pengadilan, tanggal, namaTerdakwa, umur,
-                jenisNarkotika, berat, pasal, peran, vonisHukuman, vonisDenda, hakim
+                caseId, nomorPerkara, pengadilan, tanggal, kodeTerdakwa, tuntutanBulan, vonisBulan, dendaRupiah, barangBukti
+                , jenisNarkotika, beratBarangBuktiGram, pasalTerbukti, pasalDakwaan, keadaanMemberatkan, keadaanMeringankan, sourcePages
         );
 
         repository.simpan(pts);
     }
 
     // UPDATE DATA
-    public boolean updatePutusan(String nomor,
+    public boolean updatePutusan(String caseIdStr,
                                  String nomorPerkaraStr,
                                  String pengadilanStr,
-                                 String tanggalStr,
-                                 String namaTerdakwaStr,
-                                 String umurStr,
+                                 LocalDate tanggalStr,
+                                 String kodeTerdakwaStr,
+                                 String beratBBDb,
                                  String jenisNarkotikaStr,
-                                 String beratStr,
-                                 String pasalStr,
-                                 String peranStr,
-                                 String vonisHukumanStr,
-                                 String vonisDendaStr,
-                                 String hakimStr
+                                 String barangBuktiStr,
+                                 String pasalDakwaanStr,
+                                 String pasalTerbuktiStr,
+                                 String vonisBulanStr,
+                                 String tuntutanBulanStr,
+                                 String dendaRupiahStr,
+                                 String keadaanMeringankanStr,
+                                 String keadaanMemberatkanStr,
+                                 String sourcePageStr
     ) {
 
         // 1. Validasi & parsing field String wajib (lewat InputHandler)
-        String nomorPerkara   = InputHandler.validasiString(nomorPerkaraStr, "Nomor Perkara");
-        String pengadilan     = InputHandler.validasiString(pengadilanStr, "Pengadilan");
-        String tanggal        = InputHandler.validasiString(tanggalStr, "Tanggal");
-        String namaTerdakwa   = InputHandler.validasiString(namaTerdakwaStr, "Nama Terdakwa");
+        String caseId = InputHandler.validasiString(caseIdStr, "Case Id");
+        String nomorPerkara = InputHandler.validasiString(nomorPerkaraStr, "Nomor Perkara");
+        String pengadilan = InputHandler.validasiString(pengadilanStr, "Pengadilan");
+        LocalDate tanggal = tanggalStr;
+        String kodeTerdakwa = InputHandler.validasiString(kodeTerdakwaStr, "Kode Terdakwa");
         String jenisNarkotika = InputHandler.validasiString(jenisNarkotikaStr, "Jenis Narkotika");
-        String pasal          = InputHandler.validasiString(pasalStr, "Pasal");
-        String peran          = InputHandler.validasiString(peranStr, "Peran");
-        String hakim          = InputHandler.validasiString(hakimStr, "Hakim");
-
-        // 2. Validasi & parsing field numerik (lewat InputHandler)
-        int umur            = InputHandler.validasiInt(umurStr, "Umur Terdakwa");
-        double berat         = InputHandler.validasiDouble(beratStr, "Berat Barang Bukti");
-        int vonisHukuman     = InputHandler.validasiInt(vonisHukumanStr, "Vonis Hukuman");
-        double vonisDenda     = InputHandler.validasiDouble(vonisDendaStr, "Vonis Denda");
+        Double beratBarangBuktiGram = InputHandler.validasiDouble(beratBBDb, "Berat Barang Bukti");
+        String pasalDakwaan = InputHandler.validasiString(pasalDakwaanStr, "Pasal Dakwaan");
+        String pasalTerbukti = InputHandler.validasiString(pasalTerbuktiStr, "Pasal Terbukti");
+        long dendaRupiah = (long) InputHandler.validasiLong(dendaRupiahStr, "Denda Rupiah");
+        int vonisBulan = InputHandler.validasiInt(vonisBulanStr, "Vonis Bulan");
+        int tuntutanBulan = InputHandler.validasiInt(tuntutanBulanStr, "Tuntutan Bulan");
+        String keadaanMeringankan = InputHandler.validasiString(keadaanMeringankanStr, "Keadaan Meringankan");
+        String keadaanMemberatkan = InputHandler.validasiString(keadaanMemberatkanStr, "Keadaan Memberatkan");
+        String sourcePages = InputHandler.validasiString(sourcePageStr, "Source Pages");
+        String barangBukti = InputHandler.validasiString(barangBuktiStr, "Barang Bukti");
 
         Putusan dataBaru = new Putusan(
-                nomorPerkara, pengadilan, tanggal, namaTerdakwa, umur,
-                jenisNarkotika, berat, pasal, peran, vonisHukuman, vonisDenda, hakim
+                caseId, nomorPerkara, pengadilan, tanggal, kodeTerdakwa, tuntutanBulan, vonisBulan, dendaRupiah, barangBukti
+                , jenisNarkotika, beratBarangBuktiGram, pasalTerbukti, pasalDakwaan, keadaanMemberatkan, keadaanMeringankan, sourcePages
         );
 
-        repository.update(nomor, dataBaru);
+        repository.update(nomorPerkara, dataBaru);
         return true;
     }
-//
-//    // DELETE DATA
+
+    // DELETE DATA
     public boolean hapusPutusan(String nomor) {
 
         return repository.hapus(nomor);
     }
-//
-//    // SEARCH DATA
-//    public DynamicArray<Putusan> cariPutusan(String keyword, String mode) {
-//        DynamicArray<Putusan> hasil = new DynamicArray<>();
-//        if (keyword == null || keyword.isBlank() || mode == null) {
-//            return hasil;
-//        }
-//        switch (mode.toLowerCase()) {
-//            case "nomor perkara":
-//                Putusan p = repository.cariByNomor(keyword);
-//                if (p != null) hasil.add(p);
-//                break;
-//            case "nama":
-//                hasil = repository.cariByNama(keyword);
-//                break;
-//            default:
-//                // mode tidak dikenali -> hasil kosong
-//                break;
-//        }
-//        return hasil;
-//    }
 
-    // FILTER DATA
-//    public DynamicArray<Putusan> filterPutusan(String kriteria, String nilai) {
-//        if (kriteria == null || nilai == null) {
-//            return new DynamicArray<>();
-//        }
-//        switch (kriteria.toLowerCase()) {
-//            case "jenis":
-//                return repository.filterByJenis(nilai);
+    public DynamicArray<Putusan> cariPutusan(String keyword, String mode) {
+        if (keyword == null || keyword.isBlank() || mode == null) {
+            return new DynamicArray<>();
+        }
+
+        switch (mode.toLowerCase().trim()) {
+            case "nomor perkara":
+                return repository.cariByNomor(keyword); // ini baru
+
+            case "case id":
+                return repository.cariByCaseId(keyword); // ini baru - Langsung return DynamicArray
+
+            default:
+                return new DynamicArray<>();
+        }
+    }
+
+    //     FILTER DATA
+    public DynamicArray<Putusan> filterPutusan(String kriteria, String nilai) {
+        if (kriteria == null || nilai == null) {
+            return new DynamicArray<>();
+        }
+        switch (kriteria.toLowerCase()) {
+            case "jenis":
+                return repository.filterByJenis(nilai);
 //            case "pengadilan":
 //                return repository.filterByPengadilan(nilai);
-//            default:
-//                return new DynamicArray<>();
-//        }
-//    }
+            default:
+                return new DynamicArray<>();
+        }
+    }
 
     // GET DATA STATISTIK
     public StatistikPutusan getStatistik() {
@@ -166,32 +173,62 @@ public class KnowledgeController {
         return new StatistikPutusan(repository.getDaftarSemua());
     }
 
-    // METHOD UNTUK GET DATA DARI FILE .csv
-//    public void importData(File file){
-//        try{
-//            DynamicArray<Putusan> data = CSVFileHandler.bacaFile(file);
-//
-//            for (Putusan p : data) {
-//                repository.simpan(p);
-//            }
-//        } catch (Exception e) {
-//
-//            System.out.println(e);
-//        }
-//
-//    }
-//
-//    // METHOD UNTUK FILTER RENTANG VONIS
-//    public DynamicArray<Putusan> filterByRentangVonis(String vonisMinStr, String vonisMaxStr) {
-//        int vonisMin = InputHandler.validasiInt(vonisMinStr, "Vonis Minimal");
-//        int vonisMax = InputHandler.validasiInt(vonisMaxStr, "Vonis Maksimal");
-//
-//        if (vonisMin > vonisMax) {
-//            throw new IllegalArgumentException(
-//                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
-//        }
-//
-//        return repository.filterByVonisRange(vonisMin, vonisMax);
-//    }
+    public void importData(File file) {
+        if (file == null) return;
+
+        try {
+            DynamicArray<Putusan> data = CSVFileHandler.bacaFile(file);
+
+            if (data == null) return;
+
+            // ini baru - Kunci ukuran batas awal sebelum looping berjalan
+            int totalDataBaru = data.size();
+            System.out.println("[DEBUG IMPORT] Memulai import " + totalDataBaru + " data...");
+
+            for (int i = 0; i < totalDataBaru; i++) { // ini baru - Gunakan variabel totalDataBaru
+                Putusan p = data.get(i);
+                if (p != null) {
+                    repository.simpan(p);
+                }
+            }
+
+            System.out.println("[DEBUG IMPORT] Selesai mengimpor data.");
+        } catch (Exception e) {
+            System.err.println("Gagal import: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    //    // METHOD UNTUK FILTER RENTANG VONIS
+    public DynamicArray<Putusan> filterByRentangVonis(String vonisMinStr, String vonisMaxStr) {
+        int vonisMin = InputHandler.validasiInt(vonisMinStr, "Vonis Minimal");
+        int vonisMax = InputHandler.validasiInt(vonisMaxStr, "Vonis Maksimal");
+
+        if (vonisMin > vonisMax) {
+            throw new IllegalArgumentException(
+                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
+        }
+
+        return repository.filterByVonisRange(vonisMin, vonisMax);
+    }
+
+    //    // METHOD UNTUK FILTER Berat Barang Bukti
+    public DynamicArray<Putusan> filterByRentangBB(String beratMinStr, String beratMaxStr) {
+        double beratMin = InputHandler.validasiDouble(beratMinStr, "Berat Minimal");
+        double beratMax = InputHandler.validasiDouble(beratMaxStr, "Berat Maksimal");
+
+        if (beratMin > beratMax) {
+            throw new IllegalArgumentException(
+                    "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
+        }
+
+        return repository.filterByBB(beratMin, beratMax);
+    }
+
+    // ini baru - Method untuk mengekspor data ke CSV lewat Controller
+    public void eksporData(File file, DynamicArray<Putusan> data) throws Exception {
+        if (file == null || data == null) return;
+        CSVFileHandler.eksporFile(file, data);
+    }
 
 }

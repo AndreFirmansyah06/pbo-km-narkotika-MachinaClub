@@ -1,60 +1,75 @@
 package com.example.tugasbesarpbo.model;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
+import javafx.util.converter.LocalDateStringConverter;
 
-public class Putusan implements Displayable {
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
+public class Putusan {
+
+    private SimpleStringProperty caseId;
     private SimpleStringProperty nomorPerkara;
     private SimpleStringProperty pengadilan;
-    private SimpleStringProperty tanggalPutusan;
-    private SimpleStringProperty namaTerdakwa;
-    private SimpleIntegerProperty umurTerdakwa;
+    private ObjectProperty<LocalDate> tanggalPutusan;
+    private SimpleStringProperty terdakawaKode;
     private SimpleStringProperty jenisNarkotika;
-    private SimpleDoubleProperty beratBarangBukti;
-    private SimpleStringProperty pasalDilanggar;
-    private SimpleStringProperty peranTerdakwa;
-    private SimpleIntegerProperty vonisHukuman;
-    private SimpleDoubleProperty vonisDenda;
-    private SimpleStringProperty namaHakim;
+    private SimpleDoubleProperty beratBarangBuktiGram;
+    private SimpleStringProperty pasalDakwaan;
+    private SimpleStringProperty pasalTerbukti;
+    private SimpleIntegerProperty tuntutanBulan;
+    private SimpleIntegerProperty vonisBulan;
+    private SimpleLongProperty dendaRupiah;
+    private SimpleStringProperty barangBukti;
+    private SimpleStringProperty keadaanMemberatkan;
+    private SimpleStringProperty keadaanMeringankan;
+    private SimpleStringProperty sourcePages;
 
     private static int jumlahDibuat = 0;
 
     // ==================== CONSTRUCTOR ====================
 
     public Putusan() {
+        this.caseId = new SimpleStringProperty("");
         this.nomorPerkara = new SimpleStringProperty("");
         this.pengadilan = new SimpleStringProperty("");
-        this.tanggalPutusan = new SimpleStringProperty("");
-        this.namaTerdakwa = new SimpleStringProperty("");
-        this.umurTerdakwa = new SimpleIntegerProperty(0);
+        this.tanggalPutusan = new SimpleObjectProperty<>(LocalDate.now());
+        this.terdakawaKode = new SimpleStringProperty("");
         this.jenisNarkotika = new SimpleStringProperty("");
-        this.beratBarangBukti = new SimpleDoubleProperty(0);
-        this.pasalDilanggar = new SimpleStringProperty("");
-        this.peranTerdakwa = new SimpleStringProperty("");
-        this.vonisHukuman = new SimpleIntegerProperty(0);
-        this.vonisDenda = new SimpleDoubleProperty(0);
-        this.namaHakim = new SimpleStringProperty("");
+        this.beratBarangBuktiGram = new SimpleDoubleProperty(0);
+        this.pasalDakwaan = new SimpleStringProperty("");
+        this.pasalTerbukti = new SimpleStringProperty("");
+        this.tuntutanBulan = new SimpleIntegerProperty(0);
+        this.vonisBulan = new SimpleIntegerProperty(0);
+        this.dendaRupiah = new SimpleLongProperty(0);
+        this.barangBukti = new SimpleStringProperty("");
+        this.keadaanMemberatkan = new SimpleStringProperty("");
+        this.keadaanMeringankan = new SimpleStringProperty("");
+        this.sourcePages = new SimpleStringProperty("");
         jumlahDibuat++;
     }
 
-    public Putusan(String nomorPerkara, String pengadilan, String tanggalPutusan,
-                   String namaTerdakwa, int umurTerdakwa, String jenisNarkotika,
-                   double beratBarangBukti, String pasalDilanggar, String peranTerdakwa,
-                   int vonisHukuman, double vonisDenda, String namaHakim) {
+    public Putusan(String caseId, String nomorPerkara, String pengadilan, LocalDate tanggalPutusan,
+                   String terdakawaKode, int tuntutanBulan, int vonisBulan, long dendaRupiah, String barangBukti, String jenisNarkotika,
+                   double beratBarangBukti, String pasalTerbukti, String pasalDakwaan,
+                   String keadaanMemberatkan, String keadaanMeringankan, String sourcePages) {
+        this.caseId = new SimpleStringProperty(caseId);
         this.nomorPerkara = new SimpleStringProperty(nomorPerkara);
         this.pengadilan = new SimpleStringProperty(pengadilan);
-        this.tanggalPutusan = new SimpleStringProperty(tanggalPutusan);
-        this.namaTerdakwa = new SimpleStringProperty(namaTerdakwa);
-        this.umurTerdakwa = new SimpleIntegerProperty(umurTerdakwa);
+        this.tanggalPutusan = new SimpleObjectProperty<>(tanggalPutusan);
+        this.terdakawaKode = new SimpleStringProperty(terdakawaKode);
+        this.tuntutanBulan = new SimpleIntegerProperty(tuntutanBulan);
         this.jenisNarkotika = new SimpleStringProperty(jenisNarkotika);
-        this.beratBarangBukti = new SimpleDoubleProperty(beratBarangBukti);
-        this.pasalDilanggar = new SimpleStringProperty(pasalDilanggar);
-        this.peranTerdakwa = new SimpleStringProperty(peranTerdakwa);
-        this.vonisHukuman = new SimpleIntegerProperty(vonisHukuman);
-        this.vonisDenda = new SimpleDoubleProperty(vonisDenda);
-        this.namaHakim = new SimpleStringProperty(namaHakim);
+        this.beratBarangBuktiGram = new SimpleDoubleProperty(beratBarangBukti);
+        this.pasalTerbukti = new SimpleStringProperty(pasalTerbukti);
+        this.pasalDakwaan = new SimpleStringProperty(pasalDakwaan);
+        this.vonisBulan = new SimpleIntegerProperty(vonisBulan);
+        this.dendaRupiah = new SimpleLongProperty(dendaRupiah);
+        this.barangBukti = new SimpleStringProperty(barangBukti);
+        this.keadaanMemberatkan = new SimpleStringProperty(keadaanMemberatkan);
+        this.keadaanMeringankan = new SimpleStringProperty(keadaanMeringankan);
+        this.sourcePages = new SimpleStringProperty(sourcePages);
         jumlahDibuat++;
     }
 
@@ -64,59 +79,30 @@ public class Putusan implements Displayable {
         return jumlahDibuat;
     }
 
-    // ==================== DISPLAYABLE (overloading) ====================
-
-    @Override
-    public void tampilkan() {
-        System.out.println(nomorPerkara.get() + " - " + namaTerdakwa.get() + " (" + jenisNarkotika.get() + ")");
-    }
-
-
-    // ==================== STATIC METHOD ====================
-
-
-    // ==================== DISPLAYABLE (overloading) ====================
-
-
-    @Override
-    public void tampilkan(boolean detail) {
-        if (detail) {
-            System.out.println("==============================");
-            System.out.println("Nomor Perkara  : " + nomorPerkara.get());
-            System.out.println("Pengadilan     : " + pengadilan.get());
-            System.out.println("Tanggal Putusan: " + tanggalPutusan.get());
-            System.out.println("Nama Terdakwa  : " + namaTerdakwa.get());
-            System.out.println("Umur           : " + umurTerdakwa.get() + " tahun");
-            System.out.println("Jenis Narkotika: " + jenisNarkotika.get());
-            System.out.println("Berat BB       : " + beratBarangBukti.get() + " gram");
-            System.out.println("Pasal Dilanggar: " + pasalDilanggar.get());
-            System.out.println("Peran Terdakwa : " + peranTerdakwa.get());
-            System.out.println("Vonis Hukuman  : " + vonisHukuman.get() + " bulan");
-            System.out.println("Vonis Denda    : Rp" + String.format("%.0f", vonisDenda.get()));
-            System.out.println("Nama Hakim     : " + namaHakim.get());
-            System.out.println("Kategori       : " + getKategoriHukuman());
-            System.out.println("==============================");
-        } else {
-            tampilkan();
-        }
-    }
-
-
-    public String getKategoriHukuman() {
-        int vonis = vonisHukuman.get();   // PERBAIKAN: ambil nilai int dari property dulu
-        if (vonis <= 12) return "Ringan";
-        else if (vonis <= 60) return "Sedang";
-        else return "Berat";
-    }
 
     @Override
     public String toString() {
         return String.format("Nomor: %s | Terdakwa: %s | Vonis: %d bulan | Denda: Rp%.0f",
-                nomorPerkara.get(), namaTerdakwa.get(), vonisHukuman.get(), vonisDenda.get());
+                nomorPerkara.get(), terdakawaKode.get(), vonisBulan.get(), dendaRupiah.get());
     }
 
     // ==================== GETTERS, SETTERS & PROPERTY METHODS ====================
 
+    // Field Case Id
+    public String getCaseId() {
+        return caseId.get();
+    }
+
+    public void setCaseId(String caseId) {
+        this.nomorPerkara.set(caseId);
+    }
+
+    public SimpleStringProperty caseIdProperty() {
+        return caseId;
+    }
+
+
+    // Field Nomor Perkara
     public String getNomorPerkara() {
         return nomorPerkara.get();
     }
@@ -129,6 +115,8 @@ public class Putusan implements Displayable {
         return nomorPerkara;
     }
 
+
+    // Field Pengadilan
     public String getPengadilan() {
         return pengadilan.get();
     }
@@ -141,42 +129,63 @@ public class Putusan implements Displayable {
         return pengadilan;
     }
 
-    public String getTanggalPutusan() {
+
+    //Field Tanggal Putusan
+    // Getter nilai biasa
+    public LocalDate getTanggalPutusan() {
         return tanggalPutusan.get();
     }
 
-    public void setTanggalPutusan(String tanggalPutusan) {
+    // Setter nilai biasa
+    public void setTanggalPutusan(LocalDate tanggalPutusan) {
         this.tanggalPutusan.set(tanggalPutusan);
     }
 
-    public SimpleStringProperty tanggalPutusanProperty() {
+    public ObjectProperty<LocalDate> tanggalPutusanProperty() {
         return tanggalPutusan;
     }
 
-    public String getNamaTerdakwa() {
-        return namaTerdakwa.get();
+    //Field Berat Barang Bukti Gram
+    public double getBeratBarangBuktiGram() {
+        return beratBarangBuktiGram.get();
     }
 
-    public void setNamaTerdakwa(String namaTerdakwa) {
-        this.namaTerdakwa.set(namaTerdakwa);
+    public void setBeratBarangBuktiGram(double beratBarangBuktiGram) {
+        this.beratBarangBuktiGram.set(beratBarangBuktiGram);
     }
 
-    public SimpleStringProperty namaTerdakwaProperty() {
-        return namaTerdakwa;
+    public SimpleDoubleProperty beratBarangBuktiGramProperty() {
+        return beratBarangBuktiGram;
     }
 
-    public int getUmurTerdakwa() {
-        return umurTerdakwa.get();
+    //Field Terdakwa Kode
+    public String getterdakawaKode() {
+        return terdakawaKode.get();
     }
 
-    public void setUmurTerdakwa(int umurTerdakwa) {
-        this.umurTerdakwa.set(umurTerdakwa);
+    public void setterdakawaKode(String terdakawaKode) {
+        this.terdakawaKode.set(terdakawaKode);
     }
 
-    public SimpleIntegerProperty umurTerdakwaProperty() {
-        return umurTerdakwa;
+    public SimpleStringProperty terdakawaKodeProperty() {
+        return terdakawaKode;
     }
 
+
+    //Field Tuntutan Bulan
+    public int gettuntutanBulan() {
+        return tuntutanBulan.get();
+    }
+
+    public void settuntutanBulan(int tuntutanBulan) {
+        this.tuntutanBulan.set(tuntutanBulan);
+    }
+
+    public SimpleIntegerProperty tuntutanBulanProperty() {
+        return tuntutanBulan;
+    }
+
+    //Field Jenis Narkotika
     public String getJenisNarkotika() {
         return jenisNarkotika.get();
     }
@@ -189,76 +198,115 @@ public class Putusan implements Displayable {
         return jenisNarkotika;
     }
 
-    public double getBeratBarangBukti() {
-        return beratBarangBukti.get();
+
+    //Field  Barang Bukti
+    public String getBarangBukti() {
+        return barangBukti.get();
     }
 
-    public void setBeratBarangBukti(double berat) {
-        this.beratBarangBukti.set(berat);
+    public void setBarangBukti(String barangBukti) {
+        this.barangBukti.set(barangBukti);
     }
 
-    public SimpleDoubleProperty beratBarangBuktiProperty() {
-        return beratBarangBukti;
+    public SimpleStringProperty BarangBuktiProperty() {
+        return barangBukti;
     }
 
-    public String getPasalDilanggar() {
-        return pasalDilanggar.get();
+
+    //Field Pasal Terbukti
+    public String getpasalTerbukti() {
+        return pasalTerbukti.get();
     }
 
-    public void setPasalDilanggar(String pasalDilanggar) {
-        this.pasalDilanggar.set(pasalDilanggar);
+    public void setpasalTerbukti(String pasalTerbukti) {
+        this.pasalTerbukti.set(pasalTerbukti);
     }
 
-    public SimpleStringProperty pasalDilanggarProperty() {
-        return pasalDilanggar;
+    public SimpleStringProperty pasalTerbuktiProperty() {
+        return pasalTerbukti;
     }
 
-    public String getPeranTerdakwa() {
-        return peranTerdakwa.get();
+
+    //Field Pasal Dakwaan
+    public String getpasalDakwaan() {
+        return pasalDakwaan.get();
     }
 
-    public void setPeranTerdakwa(String peranTerdakwa) {
-        this.peranTerdakwa.set(peranTerdakwa);
+    public void setpasalDakwaan(String pasalDakwaan) {
+        this.pasalDakwaan.set(pasalDakwaan);
     }
 
-    public SimpleStringProperty peranTerdakwaProperty() {
-        return peranTerdakwa;
+    public SimpleStringProperty pasalDakwaanProperty() {
+        return pasalDakwaan;
     }
 
-    public int getVonisHukuman() {
-        return vonisHukuman.get();
+
+    //Field Vonis Bulan
+    public int getVonisBulan() {
+        return vonisBulan.get();
     }
 
-    public void setVonisHukuman(int vonisHukuman) {
-        this.vonisHukuman.set(vonisHukuman);
+    public void setVonisBulan(int vonisBulan) {
+        this.vonisBulan.set(vonisBulan);
     }
 
-    public SimpleIntegerProperty vonisHukumanProperty() {
-        return vonisHukuman;
+    public SimpleIntegerProperty vonisBulanProperty() {
+        return vonisBulan;
     }
 
-    public double getVonisDenda() {
-        return vonisDenda.get();
+
+    //Field Denda Rupiah
+    public long getdendaRupiah() {
+        return dendaRupiah.get();
     }
 
-    public void setVonisDenda(double vonisDenda) {
-        this.vonisDenda.set(vonisDenda);
+    public void setdendaRupiah(long dendaRupiah) {
+        this.dendaRupiah.set(dendaRupiah);
     }
 
-    public SimpleDoubleProperty vonisDendaProperty() {
-        return vonisDenda;
+    public SimpleLongProperty dendaRupiahProperty() {
+        return dendaRupiah;
     }
 
-    public String getNamaHakim() {
-        return namaHakim.get();
+
+    //Field Keadaan Memberatkan
+    public String getkeadaanMemberatkan() {
+        return keadaanMemberatkan.get();
     }
 
-    public void setNamaHakim(String namaHakim) {
-        this.namaHakim.set(namaHakim);
+    public void setkeadaanMemberatkan(String keadaanMemberatkan) {
+        this.keadaanMemberatkan.set(keadaanMemberatkan);
     }
 
-    public SimpleStringProperty namaHakimProperty() {
-        return namaHakim;
+    public SimpleStringProperty keadaanMemberatkanProperty() {
+        return keadaanMemberatkan;
+    }
+
+
+    //Field Keadaan Meringankan
+    public String getkeadaanMeringankan() {
+        return keadaanMeringankan.get();
+    }
+
+    public void setkeadaanMMeringankan(String keadaanMeringankan) {
+        this.keadaanMemberatkan.set(keadaanMeringankan);
+    }
+
+    public SimpleStringProperty keadaanMeringankanProperty() {
+        return keadaanMeringankan;
+    }
+
+    //Field Source Pages
+    public String getSourcePages() {
+        return sourcePages.get();
+    }
+
+    public void setSourcePages(String sourcePages) {
+        this.sourcePages.set(sourcePages);
+    }
+
+    public SimpleStringProperty sourcePagesProperty() {
+        return sourcePages;
     }
 }
 
