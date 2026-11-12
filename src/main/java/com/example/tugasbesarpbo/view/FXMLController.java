@@ -119,6 +119,8 @@ public class FXMLController {
     private Label lblRataRataDenda;
     @FXML
     private TextArea txtDistribusiPeran;
+    @FXML
+    private TextArea txtAuditLog;
 
     // STATUS
     @FXML
@@ -179,7 +181,7 @@ public class FXMLController {
                     if (newVal != null) {
                         txtCaseId.setText(newVal.getCaseId());
                         txtNomorPerkara.setText(newVal.getNomorPerkara());
-//                        txtPengadilan.setText(newVal.getPengadilan());
+                        txtPengadilan.setText(newVal.getPengadilan());
                         txtTanggalPutusan.setValue(newVal.getTanggalPutusan());
                         txtKodeTerdakwa.setText(newVal.getterdakawaKode());
                         txtPasalDakwaan.setText(String.valueOf(newVal.getpasalDakwaan()));
@@ -231,6 +233,7 @@ public class FXMLController {
             refreshTabel(controller.getSemuaPutusan());
             amountData();
             updateStatistik();
+            AuditLog();
 
         } catch (Exception e) {
             setStatus("");
@@ -274,7 +277,8 @@ public class FXMLController {
                 onClearForm();
                 refreshTabel(controller.getSemuaPutusan());
 //                amountData();
-//                updateStatistik();
+                updateStatistik();
+                AuditLog();
             } else {
                 setStatus("");
                 showAlert(Alert.AlertType.WARNING, "Update Data Putusan", "Data dengan nomor perkara " + nomor + " tersebut tidak ditemukan");
@@ -300,6 +304,7 @@ public class FXMLController {
             refreshTabel(controller.getSemuaPutusan());
             amountData();
             updateStatistik();
+            AuditLog();
         } else {
             setStatus("");
             showAlert(Alert.AlertType.WARNING, "Hapus Data Putusan", "Data dengan nomor perkara tersebut tidak ditemukan");
@@ -358,6 +363,20 @@ public class FXMLController {
         }
 
         txtDistribusiPeran.setText(sb.toString());
+    }
+
+    public void AuditLog(){
+        DynamicArray<String> log = controller.riwayat();
+        StringBuilder al = new StringBuilder();
+
+        for (int i = 0; i < log.size(); i++) {
+            al.append("• ").append(log.get(i)).append("\n");
+        }
+//        for (String s : controller.riwayat()) {
+//            sb.append("• ").append(s).append("\n");
+//        }
+
+        txtAuditLog.setText(al.toString());
     }
 
     public void onClearForm() {
@@ -489,6 +508,7 @@ public class FXMLController {
                     setStatus("Berhasil mengimpor data. Total data saat ini: " + semuaData.size());
                 });
             }).start();
+            AuditLog();
 
         } catch (Exception e) {
             setStatus("Gagal: " + e.getMessage());

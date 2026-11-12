@@ -2,10 +2,12 @@ package com.example.tugasbesarpbo.controller;
 
 import com.example.tugasbesarpbo.model.Putusan;
 import com.example.tugasbesarpbo.model.StatistikPutusan;
+import com.example.tugasbesarpbo.util.ArrayStack;
+import com.example.tugasbesarpbo.util.AuditLog;
+import com.example.tugasbesarpbo.util.DynamicArray;
 import com.example.tugasbesarpbo.util.InputHandler;
 import com.example.tugasbesarpbo.util.CSVFileHandler;
 import com.example.tugasbesarpbo.model.KnowledgeRepository;
-import com.example.tugasbesarpbo.util.DynamicArray;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 
 public class KnowledgeController {
     private final KnowledgeRepository repository;
+    private final ArrayStack<AuditLog> audit = new ArrayStack<>();
 
     public KnowledgeController(KnowledgeRepository repository) {
 
@@ -81,6 +84,7 @@ public class KnowledgeController {
         );
 
         repository.simpan(pts);
+        catat("TAMBAH", caseId);
     }
 
     // UPDATE DATA
@@ -126,13 +130,15 @@ public class KnowledgeController {
         );
 
         repository.update(nomorPerkara, dataBaru);
+        catat("Update", caseId);
         return true;
     }
 
     // DELETE DATA
     public boolean hapusPutusan(String nomor) {
-
+        catat("Hapus", nomor);
         return repository.hapus(nomor);
+
     }
 
     public DynamicArray<Putusan> cariPutusan(String keyword, String mode) {
@@ -191,9 +197,10 @@ public class KnowledgeController {
                     repository.simpan(p);
                 }
             }
-
+            catat("Import Berhasil ", "");
             System.out.println("[DEBUG IMPORT] Selesai mengimpor data.");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.err.println("Gagal import: " + e.getMessage());
             e.printStackTrace();
         }
@@ -208,6 +215,8 @@ public class KnowledgeController {
             throw new IllegalArgumentException(
                     "Vonis Minimal tidak boleh lebih besar dari Vonis Maksimal.");
         }
+
+//        catat("Hapus", repository.filterByVonisRange(vonisMinStr,0).size());
 
         return repository.filterByVonisRange(vonisMin, vonisMax);
     }
@@ -229,6 +238,19 @@ public class KnowledgeController {
     public void eksporData(File file, DynamicArray<Putusan> data) throws Exception {
         if (file == null || data == null) return;
         CSVFileHandler.eksporFile(file, data);
+    }
+
+    private void catat(String aksi, String detail) {
+        audit.push(new AuditLog(aksi, detail));
+    }
+
+    /**
+     * Riwayat dari yang terbaru, tanpa mengubah isi stack.
+     */
+    public DynamicArray<String> riwayat() {
+        DynamicArray<String> hasil = new DynamicArray<>();
+        for (int i = 0; i < audit.size(); i++) hasil.add(audit.get(i).toString());
+        return hasil;
     }
 
 }

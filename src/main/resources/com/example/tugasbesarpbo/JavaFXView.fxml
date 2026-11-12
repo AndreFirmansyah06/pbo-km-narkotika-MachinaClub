@@ -69,7 +69,7 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
-
+                <TextField fx:id="txtPengadilan" promptText="Pengadilan Negeri Malang"/>
                 <TextField fx:id="txtBeratBarangBukti" promptText="Berat Barang Bukti (gram)"/>
                 <TextField fx:id="txtPasalDakwaan" promptText="Contoh: Pasal 111 ayat (1)"/>
                 <TextField fx:id="txtPasalTerbukti" promptText="Contoh: Pasal 111 ayat (1)"/>
@@ -253,6 +253,9 @@
 
                 <Label text="Distribusi Narkoba:" style="-fx-font-weight: bold;"/>
                 <TextArea fx:id="txtDistribusiPeran" editable="false" prefHeight="200"
+                          style="-fx-font-family: monospace;"/>
+                <Label text="Audit Log:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtAuditLog" editable="false" prefHeight="200"
                           style="-fx-font-family: monospace;"/>
             </children>
         </VBox>
